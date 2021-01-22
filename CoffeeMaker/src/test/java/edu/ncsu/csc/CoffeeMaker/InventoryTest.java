@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.ncsu.csc.CoffeeMaker.models.Inventory;
-import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.InventoryService;
 
 @RunWith ( SpringRunner.class )
@@ -69,32 +68,6 @@ public class InventoryTest {
                     ivt.getChocolate() );
         }
 
-    }
-
-    @Test
-    @Transactional
-    public void testConsumeInventory () {
-        final Inventory i = inventoryService.getInventory();
-
-        final Recipe recipe = new Recipe();
-        recipe.setName( "Delicious Not-Coffee" );
-        recipe.setChocolate( 10 );
-        recipe.setMilk( 20 );
-        recipe.setSugar( 5 );
-        recipe.setCoffee( 1 );
-
-        recipe.setPrice( 5 );
-
-        i.useIngredients( recipe );
-
-        /*
-         * Make sure that all of the inventory fields are now properly updated
-         */
-
-        Assert.assertEquals( 490, i.getChocolate() );
-        Assert.assertEquals( 480, i.getMilk() );
-        Assert.assertEquals( 495, i.getSugar() );
-        Assert.assertEquals( 499, i.getCoffee() );
     }
 
 }
