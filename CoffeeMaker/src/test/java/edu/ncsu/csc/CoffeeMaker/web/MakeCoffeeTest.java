@@ -66,7 +66,7 @@ public class MakeCoffeeTest extends SeleniumTest {
 
         inventoryService.save( ivt );
 
-        baseUrl = "http://localhost:8080";
+        baseUrl = "http://localhost:8080/";
         driver.manage().timeouts().implicitlyWait( 20, TimeUnit.SECONDS );
 
     }
@@ -147,13 +147,46 @@ public class MakeCoffeeTest extends SeleniumTest {
         }
 
         // Submit
-        System.out.println( recipeName + " " + price + " " + amtCoffee + " " + amtMilk + " " + " " + amtSugar + " "
-                + amtChocolate + " " + paid + " " + expectedMessage );
         driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
         Thread.sleep( 1000 );
 
         // Make sure the proper message was displayed.
         assertTextPresent( expectedMessage, driver );
+    }
+
+    @Test
+    public void testMakeCoffeeChange () {
+
+        final Recipe toMake = new Recipe();
+        toMake.setName( "Delicious Not-Coffee" );
+        toMake.setChocolate( 10 );
+        toMake.setMilk( 20 );
+        toMake.setSugar( 5 );
+        toMake.setCoffee( 0 ); // not a chance!
+
+        toMake.setPrice( 5 );
+
+        recipeService.save( toMake );
+
+        driver.get( baseUrl + "makecoffee.html" );
+
+        final WebElement radioButton = driver.findElement( By.cssSelector( "input[name='name']" ) );
+
+        radioButton.click();
+
+        final WebElement payment = driver.findElement( By.cssSelector( "input[name='amtPaid']" ) );
+
+        payment.sendKeys( "50" );
+
+        driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
+
+        waitForAngular();
+
+        final WebElement message = driver.findElement( By.className( "success" ) );
+
+        assertNotNull( message );
+
+        assertEquals( "Coffee was made. Your change is 45.", message.getText() );
     }
 
     /**
