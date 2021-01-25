@@ -179,6 +179,7 @@ public class MakeCoffeeTest extends SeleniumTest {
         payment.sendKeys( "50" );
 
         driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
+        waitForAngular();
 
         final WebElement message = driver.findElement( By.className( "success" ) );
 
