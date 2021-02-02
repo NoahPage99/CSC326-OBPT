@@ -1,6 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker.api;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,7 +48,7 @@ public class APIDeleteTest {
 
     @Test
     @Transactional
-    public void ensureRecipe () throws Exception {
+    public void deleteOneRecipe () throws Exception {
         String recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() )
                 .andReturn().getResponse().getContentAsString();
 
@@ -74,7 +75,6 @@ public class APIDeleteTest {
             mvc.perform( delete( "/api/v1/recipes/Mocha" ).contentType( MediaType.APPLICATION_JSON )
                     .content( TestUtils.asJsonString( r ) ) ).andExpect( status().isOk() ).andReturn();
 
-            /* Get the recipe database again */
             recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
                     .getResponse().getContentAsString();
 
@@ -84,4 +84,44 @@ public class APIDeleteTest {
         }
     }
 
+    @Test
+    @Transactional
+    public void deleteNullRecipe () throws Exception {
+        String recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+
+        /* If there are no recipes, add one */
+        if ( !recipe.isBlank() ) {
+            final Recipe r = new Recipe();
+            r.setChocolate( 5 );
+            r.setCoffee( 3 );
+            r.setMilk( 4 );
+            r.setSugar( 8 );
+            r.setPrice( 10 );
+            r.setName( "Mocha" );
+
+            mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
+                    .content( TestUtils.asJsonString( r ) ) ).andExpect( status().isOk() );
+
+            /* Try get a recipe from the recipe database */
+            recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
+                    .getResponse().getContentAsString();
+
+            assertTrue( recipe.contains(
+                    "Mocha" ) ); /* Make sure that now our recipe is there */
+
+            mvc.perform( delete( "/api/v1/recipes/Mocha" ).contentType( MediaType.APPLICATION_JSON )
+                    .content( TestUtils.asJsonString( r ) ) ).andExpect( status().isOk() ).andReturn();
+
+            recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
+                    .getResponse().getContentAsString();
+
+            /* Mocha should no longer be in the recipes */
+            assertTrue( !recipe.contains( "Mocha" ) );
+
+            assertEquals( "{\"status\":\"failed\",\"message\":\"No recipe found for name Mocha\"}",
+                    mvc.perform( delete( "/api/v1/recipes/Mocha" ) ).andReturn().getResponse().getContentAsString() );
+        }
+
+    }
 }
