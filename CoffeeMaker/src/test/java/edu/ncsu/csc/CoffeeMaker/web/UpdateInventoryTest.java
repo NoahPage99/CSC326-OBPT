@@ -76,6 +76,195 @@ public class UpdateInventoryTest extends SeleniumTest {
         driver.findElement( By.linkText( "Home" ) ).click();
     }
 
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory2 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "-5" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "2" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory3 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "5" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "-3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "2" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory4 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "5" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "-7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "2" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory5 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "5" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "-2" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory6 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "a" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "2" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory7 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "2" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
+    /**
+     * Tests for adding an invalid inventory. Excepted to get an error message.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testAddInventory8 () throws Exception {
+        driver.get( baseUrl + "" );
+        driver.findElement( By.linkText( "Update Inventory" ) ).click();
+
+        // Enter the amount of each ingredient
+        driver.findElement( By.name( "coffee" ) ).clear();
+        driver.findElement( By.name( "coffee" ) ).sendKeys( "\0" );
+        driver.findElement( By.name( "milk" ) ).clear();
+        driver.findElement( By.name( "milk" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "sugar" ) ).clear();
+        driver.findElement( By.name( "sugar" ) ).sendKeys( "7" );
+        driver.findElement( By.name( "chocolate" ) ).clear();
+        driver.findElement( By.name( "chocolate" ) ).sendKeys( "2a" );
+
+        // Make sure the proper message was displayed.
+        assertTextPresent( "Error while updating inventory", driver );
+
+        driver.findElement( By.linkText( "Home" ) ).click();
+
+    }
+
     @Override
     @After
     public void tearDown () {
