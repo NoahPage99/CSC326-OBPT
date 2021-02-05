@@ -71,50 +71,35 @@ bg=green</panel_attributes><additional_attributes></additional_attributes></elem
 +delete(obj: DomainObject): void
 +deleteAll(): void
 +count(): long
-#findBy(example: Example&lt;DomainObject&gt;): List&lt;? extends DomainObject&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>630</y><w>300</w><h>370</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+#findBy(example: Example&lt;DomainObject&gt;): List&lt;? extends DomainObject&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>630</y><w>300</w><h>260</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
 Recipe
 --
 -id : Long
 -name : String
 -price : Integer
--coffee : Integer
--milk : Integer
--sugar : Integer
--chocolate : Integer
--ingredient : integer
+-ingredients : Map&lt;Ingredient, Integer&gt;
 --
 +Recipe()
 +checkRecipe() : boolean
 -setId(id:Long) : void
-+setChocolate(chocolate:int) : void
-+setCoffee(coffee:int) : void
-+setMilk(milk:int) : void
-+setSugar(sugar:int) : void
-+setIngredient(ingredient) : void
++updateIngredient(Ingredient, int) : void
 +setPrice(price:int) : void
 +updateRecipe(r:Recipe) : void
 +toString() : String
 +hashCode() : int
 +equals(obj:Object) : boolean
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>590</x><y>660</y><w>430</w><h>300</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>590</x><y>660</y><w>430</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Java Class&gt;&gt;
 Inventory
 --
 -id : Long
--coffee : int
--milk : int
--sugar : int
--chocolate : int
--addedIngredient : int
+-ingredients : List&lt;Ingredient&gt;
 --
 +Inventory()
 +Inventory(coffee:int, milk:int, sugar:int, chocolate:int)
-+checkChocolate(chocolate:String) : int
-+checkCoffee(coffee:String) : int
-+checkMilk(milk:String) : int
-+checkSugar(sugar:String) : int
++checkIngredient(ingredient:String) : int
 +enoughIngredients(i:Ingredient) : boolean
 +useIngredients(r:Recipe) : boolean
-+addIngredients(coffee:int, milk:int, sugar:int, chocolate:int, addedIngredient:int) : boolean
++addIngredient(ingredient:String):boolean
 +toString() : String
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>640</x><y>600</y><w>130</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;60</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>600</y><w>110</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;10;10;30</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>1130</x><y>530</y><w>950</w><h>440</h></coordinates><panel_attributes>edu.ncsu.csc.CoffeeMaker.services
 --
@@ -149,7 +134,7 @@ Ingredient
 --
 -id : Long
 -name : String
--amt : int
+-amt : Integer
 --
 +Ingredient()
 +checkIngredient() : boolean
@@ -174,8 +159,8 @@ APIIngredientController
 -IngredientService : IngredientService
 --
 +getIngredients() : List&lt;Ingredient&gt;
-+getIngredient(name:String, amount:int) : ResponseEntity
-+createIngredient(ingredient:Ingredient, amount:int) : ResponseEntity
++getIngredient(name:String) : ResponseEntity
++createIngredient(ingredient:Ingredient) : ResponseEntity
 +deleteIngredient(name:String) : ResponseEntity
-+updatedIngredient(ingredient:Ingredient) ResponseEntity
++updateIngredient(ingredient:Ingredient) : ResponseEntity
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>80</y><w>100</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;80;10</additional_attributes></element></diagram>
