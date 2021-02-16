@@ -94,4 +94,9 @@ public class MappingController {
         return "makecoffee";
     }
 
+    @GetMapping ( { "/customRecipe", "/customRecipe.html" } )
+    public String customRecipeForm ( final Model model ) {
+        return "customRecipe";
+    }
+
 }
