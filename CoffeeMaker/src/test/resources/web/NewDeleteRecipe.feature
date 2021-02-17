@@ -19,3 +19,15 @@ Examples:
 	| recipeName |
 	| Latte      |
 	| Mocha      |
+	
+
+
+Scenario Outline: Delete all recipes by name
+	Given there are recipes called <name1> and <name2>
+	When I delete the recipes with delete all option
+	Then they are deleted
+	
+Examples:
+	| name1 | name2 |
+	| Latte | Mocha |
+	| Cap   | Cup   |
