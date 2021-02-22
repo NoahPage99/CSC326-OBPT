@@ -38,6 +38,10 @@ public class Inventory extends DomainObject {
         // Inventory object.
     }
 
+    public List<Ingredient> getIngredients () {
+        return ingredients;
+    }
+
     /**
      * Returns the ID of the entry in the DB
      *
@@ -210,7 +214,7 @@ public class Inventory extends DomainObject {
      *
      * @param ing
      *            ingredient to update
-     * 
+     *
      */
     public boolean addIngredient ( final Ingredient ing ) {
         for ( int i = 0; i < ingredients.size(); i++ ) {
