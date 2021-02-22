@@ -1,9 +1,14 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.Min;
+import javax.persistence.OneToMany;
 
 /**
  * Inventory for the coffee maker. Inventory is tied to the database using
@@ -18,45 +23,19 @@ public class Inventory extends DomainObject {
     /** id for inventory entry */
     @Id
     @GeneratedValue
-    private Long id;
-    /** amount of coffee */
-    @Min ( 0 )
-    private int  coffee;
-    /** amount of milk */
-    @Min ( 0 )
-    private int  milk;
-    /** amount of sugar */
-    @Min ( 0 )
-    private int  sugar;
-    /** amount of chocolate */
-    @Min ( 0 )
-    private int  chocolate;
+    private Long                   id;
+
+    /** List of ingredients **/
+    @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+    private final List<Ingredient> ingredients;
 
     /**
      * Empty constructor for Hibernate
      */
     public Inventory () {
+        this.ingredients = new LinkedList<Ingredient>();
         // Intentionally empty so that Hibernate can instantiate
         // Inventory object.
-    }
-
-    /**
-     * Use this to create inventory with specified amts.
-     *
-     * @param coffee
-     *            amt of coffee
-     * @param milk
-     *            amt of milk
-     * @param sugar
-     *            amt of sugar
-     * @param chocolate
-     *            amt of chocolate
-     */
-    public Inventory ( final int coffee, final int milk, final int sugar, final int chocolate ) {
-        setCoffee( coffee );
-        setMilk( milk );
-        setSugar( sugar );
-        setChocolate( chocolate );
     }
 
     /**
@@ -76,28 +55,6 @@ public class Inventory extends DomainObject {
      */
     public void setId ( final Long id ) {
         this.id = id;
-    }
-
-    /**
-     * Returns the current number of chocolate units in the inventory.
-     *
-     * @return amount of chocolate
-     */
-    public int getChocolate () {
-        return chocolate;
-    }
-
-    /**
-     * Sets the number of chocolate units in the inventory to the specified
-     * amount.
-     *
-     * @param amtChocolate
-     *            amount of chocolate to set
-     */
-    public void setChocolate ( final int amtChocolate ) {
-        if ( chocolate >= 0 ) {
-            chocolate = amtChocolate;
-        }
     }
 
     /**
@@ -126,27 +83,6 @@ public class Inventory extends DomainObject {
     }
 
     /**
-     * Returns the current number of coffee units in the inventory.
-     *
-     * @return amount of coffee
-     */
-    public int getCoffee () {
-        return coffee;
-    }
-
-    /**
-     * Sets the number of coffee units in the inventory to the specified amount.
-     *
-     * @param amtCoffee
-     *            amount of coffee to set
-     */
-    public void setCoffee ( final int amtCoffee ) {
-        if ( coffee >= 0 ) {
-            coffee = amtCoffee;
-        }
-    }
-
-    /**
      * Add the number of coffee units in the inventory to the current amount of
      * coffee units.
      *
@@ -172,27 +108,6 @@ public class Inventory extends DomainObject {
     }
 
     /**
-     * Returns the current number of milk units in the inventory.
-     *
-     * @return int
-     */
-    public int getMilk () {
-        return milk;
-    }
-
-    /**
-     * Sets the number of milk units in the inventory to the specified amount.
-     *
-     * @param amtMilk
-     *            amount of milk to set
-     */
-    public void setMilk ( final int amtMilk ) {
-        if ( milk >= 0 ) {
-            milk = amtMilk;
-        }
-    }
-
-    /**
      * Add the number of milk units in the inventory to the current amount of
      * milk units.
      *
@@ -215,27 +130,6 @@ public class Inventory extends DomainObject {
         }
 
         return amtMilk;
-    }
-
-    /**
-     * Returns the current number of sugar units in the inventory.
-     *
-     * @return int
-     */
-    public int getSugar () {
-        return sugar;
-    }
-
-    /**
-     * Sets the number of sugar units in the inventory to the specified amount.
-     *
-     * @param amtSugar
-     *            amount of sugar to set
-     */
-    public void setSugar ( final int amtSugar ) {
-        if ( sugar >= 0 ) {
-            sugar = amtSugar;
-        }
     }
 
     /**
@@ -271,20 +165,17 @@ public class Inventory extends DomainObject {
      * @return true if enough ingredients to make the beverage
      */
     public boolean enoughIngredients ( final Recipe r ) {
-        boolean isEnough = true;
-        if ( coffee < r.getCoffee() ) {
-            isEnough = false;
+        final List<Ingredient> ing = r.getIngredient();
+        for ( int i = 0; i < ing.size(); i++ ) {
+            for ( int j = 0; j < ingredients.size(); j++ ) {
+                if ( ing.get( i ).getIngredient().equals( ingredients.get( j ).getIngredient() ) ) {
+                    if ( ingredients.get( j ).getAmount() - ing.get( i ).getAmount() < 0 ) {
+                        return false;
+                    }
+                }
+            }
         }
-        if ( milk < r.getMilk() ) {
-            isEnough = false;
-        }
-        if ( sugar < r.getSugar() ) {
-            isEnough = false;
-        }
-        if ( chocolate < r.getChocolate() ) {
-            isEnough = false;
-        }
-        return isEnough;
+        return true;
     }
 
     /**
@@ -297,10 +188,14 @@ public class Inventory extends DomainObject {
      */
     public boolean useIngredients ( final Recipe r ) {
         if ( enoughIngredients( r ) ) {
-            setCoffee( coffee - r.getCoffee() );
-            setMilk( milk - r.getMilk() );
-            setSugar( sugar - r.getSugar() );
-            setChocolate( chocolate - r.getChocolate() );
+            final List<Ingredient> ing = r.getIngredient();
+            for ( int i = 0; i < ing.size(); i++ ) {
+                for ( int j = 0; j < ingredients.size(); j++ ) {
+                    if ( ing.get( i ).getIngredient().equals( ingredients.get( j ).getIngredient() ) ) {
+                        ingredients.get( j ).setAmount( ingredients.get( j ).getAmount() - ing.get( i ).getAmount() );
+                    }
+                }
+            }
             return true;
         }
         else {

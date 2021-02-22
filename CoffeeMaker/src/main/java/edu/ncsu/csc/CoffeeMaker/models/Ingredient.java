@@ -1,12 +1,8 @@
 package edu.ncsu.csc.CoffeeMaker.models;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import edu.ncsu.csc.CoffeeMaker.models.enums.IngredientType;
 
 @Entity
 public class Ingredient extends DomainObject {
@@ -14,14 +10,13 @@ public class Ingredient extends DomainObject {
     /** Recipe id */
     @Id
     @GeneratedValue
-    private Long           id;
+    private Long   id;
 
-    @Enumerated ( EnumType.STRING )
-    private IngredientType ingredient;
+    private String ingredient;
 
-    private int            amount;
+    private int    amount;
 
-    public Ingredient ( final IngredientType ingredient, final int amount ) {
+    public Ingredient ( final String ingredient, final int amount ) {
         super();
         // this.id = id;
         this.ingredient = ingredient;
@@ -40,11 +35,11 @@ public class Ingredient extends DomainObject {
         this.id = id;
     }
 
-    public IngredientType getIngredient () {
+    public String getIngredient () {
         return ingredient;
     }
 
-    public void setIngredient ( final IngredientType ingredient ) {
+    public void setIngredient ( final String ingredient ) {
         this.ingredient = ingredient;
     }
 
