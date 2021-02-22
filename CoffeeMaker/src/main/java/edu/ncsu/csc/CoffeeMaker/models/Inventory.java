@@ -204,34 +204,19 @@ public class Inventory extends DomainObject {
     }
 
     /**
-     * Updates amount of an ingredient in the inventory
+     * Adds or updates ingredient in inventory, given an ingredient parameter,
+     * if that ingredient exists in the inventory, updates it by the amount of
+     * the parameter, if it does not, it adds that ingredient to the system
      *
      * @param ing
-     *            the ingredient to update (the amount value of the Ingredient
-     *            is the amount to add)
-     */
-    public boolean addIngredientAmount ( final Ingredient ing ) {
-        for ( int i = 0; i < ingredients.size(); i++ ) {
-            if ( ing.getIngredient().equals( ingredients.get( i ).getIngredient() ) ) {
-                ingredients.get( i ).setAmount( ing.getAmount() + ingredients.get( i ).getAmount() );
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Adds an Ingredient to the Inventory
-     *
-     * @param ing
-     *            the ingredient to add
-     * @return false if an ingredient with the same name is already in the
-     *         system (it is not added), true if not (it is added)
+     *            ingredient to update
+     * 
      */
     public boolean addIngredient ( final Ingredient ing ) {
         for ( int i = 0; i < ingredients.size(); i++ ) {
             if ( ing.getIngredient().equals( ingredients.get( i ).getIngredient() ) ) {
-                return false;
+                ingredients.get( i ).setAmount( ing.getAmount() + ingredients.get( i ).getAmount() );
+                return true;
             }
         }
         ingredients.add( ing );
