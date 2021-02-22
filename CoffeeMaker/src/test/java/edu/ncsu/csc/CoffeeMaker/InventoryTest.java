@@ -1,8 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -126,16 +125,6 @@ public class InventoryTest {
 
         ivt = inventoryService.getInventory();
 
-        final Recipe r1 = new Recipe();
-        r1.setName( "Black Coffee" );
-        r1.setPrice( 1 );
-        r1.addIngredient( nutmeg );
-        r1.getIngredient().get( 0 ).setAmount( 1 );
-        inventoryService.save( r1 );
-
-        ivt = inventoryService.getInventory();
-        assertTrue( ivt.enoughIngredients( r1 ) );
-
         ivt = inventoryService.getInventory();
 
         final Recipe r2 = new Recipe();
@@ -150,6 +139,32 @@ public class InventoryTest {
         ivt = inventoryService.getInventory();
         assertFalse( ivt.enoughIngredients( r2 ) );
 
+    }
+
+    @Test
+    @Transactional
+    public void testCheckIngredients () {
+
+        final Inventory ivt = inventoryService.getInventory();
+
+        // Test that a positive integer is valid
+        assertEquals( 1, ivt.checkIngredient( "1" ) );
+
+        // Test that a string or character is invalid
+        try {
+            ivt.checkIngredient( "a" );
+        }
+        catch ( final IllegalArgumentException e ) {
+
+        }
+
+        // Test that a negative integer is invalid
+        try {
+            ivt.checkIngredient( "-5" );
+        }
+        catch ( final IllegalArgumentException e ) {
+
+        }
     }
 }
 
