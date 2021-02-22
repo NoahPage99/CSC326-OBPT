@@ -1,5 +1,6 @@
 package edu.ncsu.csc.CoffeeMaker;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -125,8 +126,6 @@ public class InventoryTest {
 
         ivt = inventoryService.getInventory();
 
-        ivt = inventoryService.getInventory();
-
         final Recipe r2 = new Recipe();
         r2.setName( "Latte" );
         r2.setPrice( 2 );
@@ -165,6 +164,51 @@ public class InventoryTest {
         catch ( final IllegalArgumentException e ) {
 
         }
+    }
+
+    @Test
+    @Transactional
+    public void testUseIngredients () {
+
+        Inventory ivt = inventoryService.getInventory();
+
+        final Ingredient creamer = new Ingredient();
+        creamer.setAmount( 5 );
+        creamer.setIngredient( "creamer" );
+        ivt.addIngredient( creamer );
+
+        final Ingredient nutmeg = new Ingredient();
+        nutmeg.setAmount( 5 );
+        nutmeg.setIngredient( "nutmeg" );
+        ivt.addIngredient( nutmeg );
+
+        final Ingredient nutmeg2 = new Ingredient();
+        nutmeg2.setAmount( 1 );
+        nutmeg2.setIngredient( "nutmeg" );
+
+        final Ingredient creamer2 = new Ingredient();
+        creamer2.setAmount( 1 );
+        creamer2.setIngredient( "creamer" );
+
+        final Recipe r2 = new Recipe();
+        r2.setName( "Latte" );
+        r2.setPrice( 2 );
+        r2.addIngredient( nutmeg2 );
+        r2.addIngredient( creamer2 );
+        inventoryService.save( r2 );
+
+        ivt = inventoryService.getInventory();
+        assertTrue( ivt.useIngredients( r2 ) );
+        ivt = inventoryService.getInventory();
+
+        int testAmount = 0;
+        for ( int i = 0; i < ivt.getIngredients().size(); i++ ) {
+            if ( ivt.getIngredients().get( i ).getIngredient().equals( "creamer" ) ) {
+                testAmount = ivt.getIngredients().get( i ).getAmount();
+                assertEquals( 4, testAmount );
+            }
+        }
+
     }
 }
 
