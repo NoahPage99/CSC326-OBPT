@@ -204,52 +204,43 @@ public class Inventory extends DomainObject {
     }
 
     /**
-     * Adds ingredients to the inventory
+     * Updates amount of an ingredient in the inventory
      *
-     * @param coffee
-     *            amt of coffee
-     * @param milk
-     *            amt of milk
-     * @param sugar
-     *            amt of sugar
-     * @param chocolate
-     *            amt of chocolate
-     * @return true if successful, false if not
+     * @param ing
+     *            the ingredient to update (the amount value of the Ingredient
+     *            is the amount to add)
      */
-    public boolean addIngredients ( final int coffee, final int milk, final int sugar, final int chocolate ) {
-        if ( coffee < 0 || milk < 0 || sugar < 0 || chocolate < 0 ) {
-            throw new IllegalArgumentException( "Amount cannot be negative" );
+    public boolean addIngredientAmount ( final Ingredient ing ) {
+        for ( int i = 0; i < ingredients.size(); i++ ) {
+            if ( ing.getIngredient().equals( ingredients.get( i ).getIngredient() ) ) {
+                ingredients.get( i ).setAmount( ing.getAmount() + ingredients.get( i ).getAmount() );
+                return true;
+            }
         }
-
-        setCoffee( this.coffee + coffee );
-        setMilk( this.milk + milk );
-        setSugar( this.sugar + sugar );
-        setChocolate( this.chocolate + chocolate );
-
-        return true;
+        return false;
     }
 
     /**
-     * Returns a string describing the current contents of the inventory.
+     * Adds an Ingredient to the Inventory
      *
-     * @return String
+     * @param ing
+     *            the ingredient to add
+     * @return false if an ingredient with the same name is already in the
+     *         system (it is not added), true if not (it is added)
      */
+    public boolean addIngredient ( final Ingredient ing ) {
+        for ( int i = 0; i < ingredients.size(); i++ ) {
+            if ( ing.getIngredient().equals( ingredients.get( i ).getIngredient() ) ) {
+                return false;
+            }
+        }
+        ingredients.add( ing );
+        return true;
+    }
+
     @Override
     public String toString () {
-        final StringBuffer buf = new StringBuffer();
-        buf.append( "Coffee: " );
-        buf.append( getCoffee() );
-        buf.append( "\n" );
-        buf.append( "Milk: " );
-        buf.append( getMilk() );
-        buf.append( "\n" );
-        buf.append( "Sugar: " );
-        buf.append( getSugar() );
-        buf.append( "\n" );
-        buf.append( "Chocolate: " );
-        buf.append( getChocolate() );
-        buf.append( "\n" );
-        return buf.toString();
+        return "Inventory [ingredients=" + ingredients + "]";
     }
 
 }

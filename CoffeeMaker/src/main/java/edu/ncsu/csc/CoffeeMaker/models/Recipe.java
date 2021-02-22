@@ -24,17 +24,17 @@ public class Recipe extends DomainObject {
     /** Recipe id */
     @Id
     @GeneratedValue
-    private Long                   id;
+    private Long             id;
 
     /** Recipe name */
-    private String                 name;
+    private String           name;
 
     /** Recipe price */
     @Min ( 0 )
-    private Integer                price;
+    private Integer          price;
 
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-    private final List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
     /**
      * Creates a default recipe for the coffee maker.
@@ -127,6 +127,16 @@ public class Recipe extends DomainObject {
         int result = 1;
         result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
         return result;
+    }
+
+    /**
+     * Updates Recipe to contain the ingredient set of a different recipe
+     *
+     * @param r
+     *            recipe to model update from
+     */
+    public void updateRecipe ( final Recipe r ) {
+        ingredients = r.getIngredient();
     }
 
     @Override

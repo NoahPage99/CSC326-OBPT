@@ -3,6 +3,7 @@ package edu.ncsu.csc.CoffeeMaker.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 
 @Entity
 public class Ingredient extends DomainObject {
@@ -12,13 +13,9 @@ public class Ingredient extends DomainObject {
     @GeneratedValue
     private Long   id;
 
-<<<<<<< HEAD
-=======
-    // @Enumerated ( EnumType.STRING )
-    // private IngredientType ingredient;
->>>>>>> 912796cbc7c14d9ff1cd96db841904ea50392081
     private String ingredient;
 
+    @Min ( 0 )
     private int    amount;
 
     public Ingredient ( final String ingredient, final int amount ) {
