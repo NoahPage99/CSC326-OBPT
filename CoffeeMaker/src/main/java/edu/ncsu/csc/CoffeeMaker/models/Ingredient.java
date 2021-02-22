@@ -12,6 +12,11 @@ public class Ingredient extends DomainObject {
     @GeneratedValue
     private Long   id;
 
+<<<<<<< HEAD
+=======
+    // @Enumerated ( EnumType.STRING )
+    // private IngredientType ingredient;
+>>>>>>> 912796cbc7c14d9ff1cd96db841904ea50392081
     private String ingredient;
 
     private int    amount;

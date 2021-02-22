@@ -1,7 +1,5 @@
 package edu.ncsu.csc.CoffeeMaker;
 
-import javax.transaction.Transactional;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
-import edu.ncsu.csc.CoffeeMaker.models.enums.IngredientType;
 import edu.ncsu.csc.CoffeeMaker.services.IngredientService;
 
 @RunWith ( SpringRunner.class )
@@ -27,11 +24,11 @@ public class GenerateIngredients {
     public void testCreateIngredients () {
         ingredientService.deleteAll();
 
-        final Ingredient i1 = new Ingredient( IngredientType.COFFEE, 5 );
+        final Ingredient i1 = new Ingredient( "Coffee", 5 );
 
         ingredientService.save( i1 );
 
-        final Ingredient i2 = new Ingredient( IngredientType.MILK, 3 );
+        final Ingredient i2 = new Ingredient( "Milk", 3 );
 
         ingredientService.save( i2 );
 
