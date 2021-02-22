@@ -20,7 +20,7 @@ public class GenerateIngredients {
     private IngredientService ingredientService;
 
     @Test
-    // @Transactional
+    @Transactional
     public void testCreateIngredients () {
         ingredientService.deleteAll();
 
