@@ -1,5 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker;
 
+import javax.transaction.Transactional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

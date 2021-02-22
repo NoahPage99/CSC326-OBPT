@@ -137,6 +137,8 @@ public class Recipe extends DomainObject {
      */
     public void updateRecipe ( final Recipe r ) {
         ingredients = r.getIngredient();
+        name = r.getName();
+        setId( id );
     }
 
     @Override
