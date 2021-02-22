@@ -71,94 +71,19 @@ public class Inventory extends DomainObject {
      * @throws IllegalArgumentException
      *             if the parameter isn't a positive integer
      */
-    public int checkChocolate ( final String chocolate ) throws IllegalArgumentException {
-        int amtChocolate = 0;
+    public int checkIngredient ( final String ingredient ) throws IllegalArgumentException {
+        int amtIng = 0;
         try {
-            amtChocolate = Integer.parseInt( chocolate );
+            amtIng = Integer.parseInt( ingredient );
         }
         catch ( final NumberFormatException e ) {
-            throw new IllegalArgumentException( "Units of chocolate must be a positive integer" );
+            throw new IllegalArgumentException( "Units of ingredients must be a positive integer" );
         }
-        if ( amtChocolate < 0 ) {
-            throw new IllegalArgumentException( "Units of chocolate must be a positive integer" );
-        }
-
-        return amtChocolate;
-    }
-
-    /**
-     * Add the number of coffee units in the inventory to the current amount of
-     * coffee units.
-     *
-     * @param coffee
-     *            amount of coffee
-     * @return checked amount of coffee
-     * @throws IllegalArgumentException
-     *             if the parameter isn't a positive integer
-     */
-    public int checkCoffee ( final String coffee ) throws IllegalArgumentException {
-        int amtCoffee = 0;
-        try {
-            amtCoffee = Integer.parseInt( coffee );
-        }
-        catch ( final NumberFormatException e ) {
-            throw new IllegalArgumentException( "Units of coffee must be a positive integer" );
-        }
-        if ( amtCoffee < 0 ) {
-            throw new IllegalArgumentException( "Units of coffee must be a positive integer" );
+        if ( amtIng < 0 ) {
+            throw new IllegalArgumentException( "Units of ingredients must be a positive integer" );
         }
 
-        return amtCoffee;
-    }
-
-    /**
-     * Add the number of milk units in the inventory to the current amount of
-     * milk units.
-     *
-     * @param milk
-     *            amount of milk
-     * @return checked amount of milk
-     * @throws IllegalArgumentException
-     *             if the parameter isn't a positive integer
-     */
-    public int checkMilk ( final String milk ) throws IllegalArgumentException {
-        int amtMilk = 0;
-        try {
-            amtMilk = Integer.parseInt( milk );
-        }
-        catch ( final NumberFormatException e ) {
-            throw new IllegalArgumentException( "Units of milk must be a positive integer" );
-        }
-        if ( amtMilk < 0 ) {
-            throw new IllegalArgumentException( "Units of milk must be a positive integer" );
-        }
-
-        return amtMilk;
-    }
-
-    /**
-     * Add the number of sugar units in the inventory to the current amount of
-     * sugar units.
-     *
-     * @param sugar
-     *            amount of sugar
-     * @return checked amount of sugar
-     * @throws IllegalArgumentException
-     *             if the parameter isn't a positive integer
-     */
-    public int checkSugar ( final String sugar ) throws IllegalArgumentException {
-        int amtSugar = 0;
-        try {
-            amtSugar = Integer.parseInt( sugar );
-        }
-        catch ( final NumberFormatException e ) {
-            throw new IllegalArgumentException( "Units of sugar must be a positive integer" );
-        }
-        if ( amtSugar < 0 ) {
-            throw new IllegalArgumentException( "Units of sugar must be a positive integer" );
-        }
-
-        return amtSugar;
+        return amtIng;
     }
 
     /**
