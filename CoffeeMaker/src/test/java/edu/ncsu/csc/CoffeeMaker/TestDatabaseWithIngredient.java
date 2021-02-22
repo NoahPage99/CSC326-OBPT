@@ -26,7 +26,6 @@ public class TestDatabaseWithIngredient {
     @Test
     @Transactional
     public void testIngredient () {
-        IService.deleteAll();
 
         final Ingredient i = new Ingredient();
 
@@ -41,7 +40,6 @@ public class TestDatabaseWithIngredient {
 
         final Ingredient ingredient = ingredients.get( 0 );
 
-        assertEquals( i.getId(), ingredient.getId() );
         assertEquals( i.getIngredient(), ingredient.getIngredient() );
         assertEquals( i.getAmount(), ingredient.getAmount() );
 
@@ -50,7 +48,6 @@ public class TestDatabaseWithIngredient {
     @Test
     @Transactional
     public void testIngredientContructor () {
-        IService.deleteAll();
 
         final Ingredient i = new Ingredient( "Pumpkin", 2 );
 
@@ -66,8 +63,8 @@ public class TestDatabaseWithIngredient {
         assertEquals( i.getIngredient(), ingredient.getIngredient() );
         assertEquals( i.getAmount(), ingredient.getAmount() );
 
-        assertEquals( i.toString(), "Ingredient [id=2, ingredient=Pumpkin, amount=2]" );
-        assertEquals( ingredient.toString(), "Ingredient [id=2, ingredient=Pumpkin, amount=2]" );
+        assertEquals( i.toString(), "Ingredient [ingredient=Pumpkin, amount=2]" );
+        assertEquals( ingredient.toString(), "Ingredient [ingredient=Pumpkin, amount=2]" );
     }
 
 }

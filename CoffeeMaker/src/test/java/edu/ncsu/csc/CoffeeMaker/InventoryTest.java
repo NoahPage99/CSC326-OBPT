@@ -27,6 +27,7 @@ public class InventoryTest {
 
     @Before
     public void setup () {
+        inventoryService.deleteAll();
         final Inventory ivt = inventoryService.getInventory();
 
         final Ingredient i1 = new Ingredient();
@@ -208,6 +209,7 @@ public class InventoryTest {
                 assertEquals( 4, testAmount );
             }
         }
+        inventoryService.deleteAll();
 
     }
 }

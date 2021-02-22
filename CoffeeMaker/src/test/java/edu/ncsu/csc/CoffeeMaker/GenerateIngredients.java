@@ -1,14 +1,14 @@
 package edu.ncsu.csc.CoffeeMaker;
 
-import javax.transaction.Transactional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.services.IngredientService;
@@ -24,7 +24,10 @@ public class GenerateIngredients {
     @Test
     @Transactional
     public void testCreateIngredients () {
-        ingredientService.deleteAll();
+
+        final int count = (int) ingredientService.count();
+
+        assertEquals( 0, count );
 
         final Ingredient i1 = new Ingredient( "Coffee", 5 );
 
@@ -34,7 +37,7 @@ public class GenerateIngredients {
 
         ingredientService.save( i2 );
 
-        Assert.assertEquals( 2, ingredientService.count() );
+        assertEquals( 2, ingredientService.count() );
 
     }
 }
