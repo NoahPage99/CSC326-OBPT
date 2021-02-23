@@ -22,7 +22,7 @@ public class IngredientService extends Service {
 
     @Override
     protected JpaRepository getRepository () {
-        return ingredientService;
+        return ingredientRepository;
     }
 
     public Ingredient findByName ( final String name ) {
