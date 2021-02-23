@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.ncsu.csc.CoffeeMaker.cucumber.utils.SharedInventoryData;
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.InventoryService;
@@ -65,10 +66,10 @@ public class InventoryStepDefs {
         final Inventory currentInventory = inventoryService.getInventory();
 
         final Recipe r = new Recipe();
-        r.setCoffee( removeCoffee );
-        r.setMilk( removeMilk );
-        r.setSugar( removeSugar );
-        r.setChocolate( removeChocolate );
+        r.addIngredient( new Ingredient( "coffee", removeCoffee ) );
+        r.addIngredient( new Ingredient( "milk", removeMilk ) );
+        r.addIngredient( new Ingredient( "sugar", removeSugar ) );
+        r.addIngredient( new Ingredient( "chocolate", removeChocolate ) );
 
         currentInventory.useIngredients( r );
     }
@@ -94,7 +95,12 @@ public class InventoryStepDefs {
         recipeService.deleteAll();
 
         final Inventory i = inventoryService.getInventory();
-        i.addIngredients( originalCoffee, originalMilk, originalSugar, originalChocolate );
+        // i.addIngredients( originalCoffee, originalMilk, originalSugar,
+        // originalChocolate );
+        i.addIngredient( new Ingredient( "coffee", originalCoffee ) );
+        i.addIngredient( new Ingredient( "milk", originalMilk ) );
+        i.addIngredient( new Ingredient( "sugar", originalSugar ) );
+        i.addIngredient( new Ingredient( "chocolate", originalChocolate ) );
         inventoryService.save( i );
 
         inventoryData.originalCoffee = originalCoffee;
@@ -124,7 +130,12 @@ public class InventoryStepDefs {
         inventoryData.newChocolate = amtChocolate;
         try {
             final Inventory inventory = inventoryService.getInventory();
-            inventory.addIngredients( amtCoffee, amtMilk, amtSugar, amtChocolate );
+            // inventory.addIngredients( amtCoffee, amtMilk, amtSugar,
+            // amtChocolate );
+            inventory.addIngredient( new Ingredient( "coffee", amtCoffee ) );
+            inventory.addIngredient( new Ingredient( "milk", amtMilk ) );
+            inventory.addIngredient( new Ingredient( "sugar", amtSugar ) );
+            inventory.addIngredient( new Ingredient( "chocolate", amtChocolate ) );
             inventoryService.save( inventory );
         }
         catch ( final Exception e ) {
@@ -150,7 +161,12 @@ public class InventoryStepDefs {
             final int amtChocolate ) {
         try {
             final Inventory inventory = inventoryService.getInventory();
-            inventory.addIngredients( amtCoffee, amtMilk, amtSugar, amtChocolate );
+            // inventory.addIngredients( amtCoffee, amtMilk, amtSugar,
+            // amtChocolate );
+            inventory.addIngredient( new Ingredient( "coffee", amtCoffee ) );
+            inventory.addIngredient( new Ingredient( "milk", amtMilk ) );
+            inventory.addIngredient( new Ingredient( "sugar", amtSugar ) );
+            inventory.addIngredient( new Ingredient( "chocolate", amtChocolate ) );
             inventoryService.save( inventory );
             Assert.fail( "Inventory added without throwing an error." );
         }
@@ -183,10 +199,15 @@ public class InventoryStepDefs {
 
         try {
             final Inventory inventory = inventoryService.getInventory();
-            inventory.setCoffee( amtCoffee );
-            inventory.setMilk( amtMilk );
-            inventory.setSugar( amtSugar );
-            inventory.setChocolate( amtChocolate );
+            // inventory.setCoffee( amtCoffee );
+            // inventory.setMilk( amtMilk );
+            // inventory.setSugar( amtSugar );
+            // inventory.setChocolate( amtChocolate );
+            inventory.getIngredients().clear();
+            inventory.addIngredient( new Ingredient( "coffee", amtCoffee ) );
+            inventory.addIngredient( new Ingredient( "milk", amtMilk ) );
+            inventory.addIngredient( new Ingredient( "sugar", amtSugar ) );
+            inventory.addIngredient( new Ingredient( "chocolate", amtChocolate ) );
             inventoryService.save( inventory );
         }
         catch ( final Exception e ) {
@@ -203,10 +224,10 @@ public class InventoryStepDefs {
     public void inventoryNotUpdated () {
 
         final Inventory inventory = inventoryService.getInventory();
-        final int coffee2 = inventory.getCoffee();
-        final int milk2 = inventory.getMilk();
-        final int sugar2 = inventory.getSugar();
-        final int chocolate2 = inventory.getChocolate();
+        final int coffee2 = inventory.getIngredientByName( "coffee" ).getAmount();
+        final int milk2 = inventory.getIngredientByName( "milk" ).getAmount();
+        final int sugar2 = inventory.getIngredientByName( "sugar" ).getAmount();
+        final int chocolate2 = inventory.getIngredientByName( "chocolate" ).getAmount();
 
         // Verify that the inventory is unchanged
         Assert.assertEquals( "Coffee not correct", inventoryData.originalCoffee, coffee2 );
@@ -229,10 +250,10 @@ public class InventoryStepDefs {
         final int expectedChocolate = inventoryData.originalChocolate + inventoryData.newChocolate;
 
         final Inventory inventory = inventoryService.getInventory();
-        final int coffee2 = inventory.getCoffee();
-        final int milk2 = inventory.getMilk();
-        final int sugar2 = inventory.getSugar();
-        final int chocolate2 = inventory.getChocolate();
+        final int coffee2 = inventory.getIngredientByName( "coffee" ).getAmount();
+        final int milk2 = inventory.getIngredientByName( "milk" ).getAmount();
+        final int sugar2 = inventory.getIngredientByName( "sugar" ).getAmount();
+        final int chocolate2 = inventory.getIngredientByName( "chocolate" ).getAmount();
 
         // Verify that the inventory is correct
         Assert.assertEquals( "Coffee not added correctly", expectedCoffee, coffee2 );
@@ -250,10 +271,10 @@ public class InventoryStepDefs {
     public void inventoryUpdated () {
 
         final Inventory inventory = inventoryService.getInventory();
-        final int coffee2 = inventory.getCoffee();
-        final int milk2 = inventory.getMilk();
-        final int sugar2 = inventory.getSugar();
-        final int chocolate2 = inventory.getChocolate();
+        final int coffee2 = inventory.getIngredientByName( "coffee" ).getAmount();
+        final int milk2 = inventory.getIngredientByName( "milk" ).getAmount();
+        final int sugar2 = inventory.getIngredientByName( "sugar" ).getAmount();
+        final int chocolate2 = inventory.getIngredientByName( "chocolate" ).getAmount();
 
         // Verify that the inventory is correct
         Assert.assertEquals( "Coffee not added correctly", inventoryData.newCoffee, coffee2 );

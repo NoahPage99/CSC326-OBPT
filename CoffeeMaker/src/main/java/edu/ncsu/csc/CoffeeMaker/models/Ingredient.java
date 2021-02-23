@@ -21,6 +21,9 @@ public class Ingredient extends DomainObject {
     public Ingredient ( final String ingredient, final int amount ) {
         super();
         // this.id = id;
+        if ( amount < 0 ) {
+            throw new IllegalArgumentException( "Amount cannot be negative" );
+        }
         this.ingredient = ingredient;
         this.amount = amount;
     }
@@ -50,6 +53,9 @@ public class Ingredient extends DomainObject {
     }
 
     public void setAmount ( final int amount ) {
+        if ( amount < 0 ) {
+            throw new IllegalArgumentException( "Amount cannot be negative" );
+        }
         this.amount = amount;
     }
 

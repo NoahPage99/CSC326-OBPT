@@ -141,6 +141,23 @@ public class Recipe extends DomainObject {
         setId( id );
     }
 
+    /**
+     * gets an ingredient from the Recipe by its name
+     *
+     * @param name
+     *            name of the ingredient to get
+     * @return the Ingredient object, or null if there is no Ingredient with
+     *         that name
+     */
+    public Ingredient getIngredientByName ( final String name ) {
+        for ( int i = 0; i < ingredients.size(); i++ ) {
+            if ( ingredients.get( i ).getIngredient().equals( name ) ) {
+                return ingredients.get( i );
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean equals ( final Object obj ) {
         if ( this == obj ) {

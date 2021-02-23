@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.ncsu.csc.CoffeeMaker.controllers.APICoffeeController;
 import edu.ncsu.csc.CoffeeMaker.cucumber.utils.SharedCoffeeMakerData;
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.InventoryService;
@@ -67,7 +68,12 @@ public class MakeCoffeeStepDefs {
 
         inventoryService.deleteAll();
         final Inventory i = inventoryService.getInventory();
-        i.addIngredients( originalCoffee, originalMilk, originalSugar, originalChocolate );
+        // i.addIngredients( originalCoffee, originalMilk, originalSugar,
+        // originalChocolate );
+        i.addIngredient( new Ingredient( "coffee", originalCoffee ) );
+        i.addIngredient( new Ingredient( "milk", originalMilk ) );
+        i.addIngredient( new Ingredient( "sugar", originalSugar ) );
+        i.addIngredient( new Ingredient( "chocolate", originalChocolate ) );
         inventoryService.save( i );
     }
 
@@ -92,10 +98,10 @@ public class MakeCoffeeStepDefs {
         final Inventory currentInventory = inventoryService.getInventory();
 
         final Recipe r = new Recipe();
-        r.setCoffee( removeCoffee );
-        r.setMilk( removeMilk );
-        r.setSugar( removeSugar );
-        r.setChocolate( removeChocolate );
+        r.addIngredient( new Ingredient( "coffee", removeCoffee ) );
+        r.addIngredient( new Ingredient( "milk", removeMilk ) );
+        r.addIngredient( new Ingredient( "sugar", removeSugar ) );
+        r.addIngredient( new Ingredient( "chocolate", removeChocolate ) );
 
         currentInventory.useIngredients( r );
     }
@@ -129,10 +135,10 @@ public class MakeCoffeeStepDefs {
                         testR.setName( "Recipe" + i );
                         final Integer pr = Integer.valueOf( i * 10 );
                         testR.setPrice( pr );
-                        testR.setCoffee( Integer.valueOf( i ) );
-                        testR.setMilk( 1 );
-                        testR.setSugar( 1 );
-                        testR.setChocolate( 1 );
+                        testR.addIngredient( new Ingredient( "coffee", ( Integer.valueOf( i ) ) ) );
+                        testR.addIngredient( new Ingredient( "milk", 1 ) );
+                        testR.addIngredient( new Ingredient( "sugar", 1 ) );
+                        testR.addIngredient( new Ingredient( "chocolate", 1 ) );
                     }
                     catch ( final Exception e ) {
                         Assert.fail( "Error in creating recipes" );
@@ -172,10 +178,10 @@ public class MakeCoffeeStepDefs {
 
             newR.setName( name );
             newR.setPrice( cost );
-            newR.setCoffee( coffeeAmt );
-            newR.setMilk( milkAmt );
-            newR.setSugar( sugarAmt );
-            newR.setChocolate( chocolateAmt );
+            newR.addIngredient( new Ingredient( "coffee", coffeeAmt ) );
+            newR.addIngredient( new Ingredient( "milk", milkAmt ) );
+            newR.addIngredient( new Ingredient( "sugar", sugarAmt ) );
+            newR.addIngredient( new Ingredient( "chocolate", chocolateAmt ) );
             recipeService.save( newR );
             makerData.currentRecipe = newR;
         }
@@ -239,17 +245,21 @@ public class MakeCoffeeStepDefs {
      */
     @Then ( "^the inventory is updated correctly$" )
     public void validInventoryUpdate () {
-        final int expectedCoffee = makerData.originalCoffee - makerData.currentRecipe.getCoffee();
-        final int expectedMilk = makerData.originalMilk - makerData.currentRecipe.getMilk();
-        final int expectedSugar = makerData.originalSugar - makerData.currentRecipe.getSugar();
-        final int expectedChocolate = makerData.originalChocolate - makerData.currentRecipe.getChocolate();
+        final int expectedCoffee = makerData.originalCoffee
+                - makerData.currentRecipe.getIngredientByName( "coffee" ).getAmount();
+        final int expectedMilk = makerData.originalMilk
+                - makerData.currentRecipe.getIngredientByName( "milk" ).getAmount();
+        final int expectedSugar = makerData.originalSugar
+                - makerData.currentRecipe.getIngredientByName( "sugar" ).getAmount();
+        final int expectedChocolate = makerData.originalChocolate
+                - makerData.currentRecipe.getIngredientByName( "chocolate" ).getAmount();
 
         final Inventory inventory = inventoryService.getInventory();
 
-        Assert.assertEquals( expectedCoffee, inventory.getCoffee() );
-        Assert.assertEquals( expectedMilk, inventory.getMilk() );
-        Assert.assertEquals( expectedSugar, inventory.getSugar() );
-        Assert.assertEquals( expectedChocolate, inventory.getChocolate() );
+        Assert.assertEquals( expectedCoffee, inventory.getIngredientByName( "coffee" ).getAmount() );
+        Assert.assertEquals( expectedMilk, inventory.getIngredientByName( "milk" ).getAmount() );
+        Assert.assertEquals( expectedSugar, inventory.getIngredientByName( "sugar" ).getAmount() );
+        Assert.assertEquals( expectedChocolate, inventory.getIngredientByName( "chocolate" ).getAmount() );
     }
 
     /**
@@ -260,10 +270,10 @@ public class MakeCoffeeStepDefs {
     public void inventoryNotChanged () {
         final Inventory inventory = inventoryService.getInventory();
 
-        Assert.assertEquals( makerData.originalCoffee, inventory.getCoffee() );
-        Assert.assertEquals( makerData.originalMilk, inventory.getMilk() );
-        Assert.assertEquals( makerData.originalSugar, inventory.getSugar() );
-        Assert.assertEquals( makerData.originalChocolate, inventory.getChocolate() );
+        Assert.assertEquals( makerData.originalCoffee, inventory.getIngredientByName( "coffee" ).getAmount() );
+        Assert.assertEquals( makerData.originalMilk, inventory.getIngredientByName( "milk" ).getAmount() );
+        Assert.assertEquals( makerData.originalSugar, inventory.getIngredientByName( "sugar" ).getAmount() );
+        Assert.assertEquals( makerData.originalChocolate, inventory.getIngredientByName( "chocolate" ).getAmount() );
     }
 
 }
