@@ -25,14 +25,14 @@ public class IngredientService extends Service {
         return ingredientRepository;
     }
 
-    public Ingredient findByName ( final String name ) {
-        final Ingredient ingredient = new Ingredient();
-        ingredient.setIngredient( name );
+    public Ingredient findByName ( final String ingredient ) {
+        final Ingredient i = new Ingredient();
+        i.setIngredient( ingredient );
 
-        final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher( "name",
+        final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher( "ingredient",
                 ExampleMatcher.GenericPropertyMatchers.exact() );
 
-        final Example<Ingredient> example = Example.of( ingredient, matcher );
+        final Example<Ingredient> example = Example.of( i, matcher );
 
         try {
             return ingredientRepository.findOne( example ).get();
