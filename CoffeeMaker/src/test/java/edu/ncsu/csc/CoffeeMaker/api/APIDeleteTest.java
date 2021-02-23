@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 
 @RunWith ( SpringRunner.class )
@@ -55,10 +56,10 @@ public class APIDeleteTest {
         /* If there are no recipes, add one */
         if ( !recipe.isBlank() ) {
             final Recipe r = new Recipe();
-            r.setChocolate( 5 );
-            r.setCoffee( 3 );
-            r.setMilk( 4 );
-            r.setSugar( 8 );
+            r.addIngredient( new Ingredient( "chocolate", 5 ) );
+            r.addIngredient( new Ingredient( "coffee", 3 ) );
+            r.addIngredient( new Ingredient( "milk", 4 ) );
+            r.addIngredient( new Ingredient( "sugar", 8 ) );
             r.setPrice( 10 );
             r.setName( "Mocha" );
 
@@ -93,11 +94,10 @@ public class APIDeleteTest {
         /* If there are no recipes, add one */
         if ( !recipe.isBlank() ) {
             final Recipe r = new Recipe();
-            r.setChocolate( 5 );
-            r.setCoffee( 3 );
-            r.setMilk( 4 );
-            r.setSugar( 8 );
-            r.setPrice( 10 );
+            r.addIngredient( new Ingredient( "chocolate", 5 ) );
+            r.addIngredient( new Ingredient( "coffee", 3 ) );
+            r.addIngredient( new Ingredient( "milk", 4 ) );
+            r.addIngredient( new Ingredient( "sugar", 8 ) );
             r.setName( "Mocha" );
 
             mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
