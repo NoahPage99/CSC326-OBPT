@@ -29,7 +29,7 @@ public class IngredientService extends Service {
         final Ingredient i = new Ingredient();
         i.setIngredient( ingredient );
 
-        final ExampleMatcher matcher = ExampleMatcher.matching().withMatcher( "ingredient",
+        final ExampleMatcher matcher = ExampleMatcher.matching().withIgnorePaths( "amount" ).withMatcher( "ingredient",
                 ExampleMatcher.GenericPropertyMatchers.exact() );
 
         final Example<Ingredient> example = Example.of( i, matcher );
