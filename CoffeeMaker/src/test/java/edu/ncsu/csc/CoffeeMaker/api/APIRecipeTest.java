@@ -1,6 +1,9 @@
 package edu.ncsu.csc.CoffeeMaker.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.transaction.Transactional;
@@ -50,18 +53,80 @@ public class APIRecipeTest {
     @Test
     @Transactional
     public void ensureRecipe () throws Exception {
-        service.deleteAll();
 
-        final Recipe r = new Recipe();
-        r.addIngredient( new Ingredient( "chocolate", 5 ) );
-        r.addIngredient( new Ingredient( "coffee", 3 ) );
-        r.addIngredient( new Ingredient( "milk", 4 ) );
-        r.addIngredient( new Ingredient( "sugar", 8 ) );
-        r.setPrice( 10 );
-        r.setName( "Mocha" );
+        String recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() )
+                .andReturn().getResponse().getContentAsString();
+
+        /* Figure out if the recipe we want is present */
+        if ( !recipe.contains( "Mocha" ) ) {
+            final Recipe r = new Recipe();
+            r.addIngredient( new Ingredient( "chocolate", 5 ) );
+            r.addIngredient( new Ingredient( "coffee", 3 ) );
+            r.addIngredient( new Ingredient( "milk", 4 ) );
+            r.addIngredient( new Ingredient( "sugar", 8 ) );
+            r.setPrice( 10 );
+            r.setName( "Mocha" );
+
+            mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
+                    .content( TestUtils.asJsonString( r ) ) ).andExpect( status().isOk() );
+
+        }
+
+        final Recipe r2 = new Recipe();
+        r2.addIngredient( new Ingredient( "chocolate", 5 ) );
+        r2.setPrice( 10 );
+        r2.setName( "coffee" );
 
         mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
-                .content( TestUtils.asJsonString( r ) ) ).andExpect( status().isOk() );
+                .content( TestUtils.asJsonString( r2 ) ) ).andExpect( status().isOk() );
+
+        final Recipe r3 = new Recipe();
+        r3.addIngredient( new Ingredient( "chocolate", 5 ) );
+        r3.setPrice( 10 );
+        r3.setName( "coffee" );
+
+        mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( r3 ) ) ).andExpect( status().isConflict() );
+
+        final Recipe r4 = new Recipe();
+        r4.addIngredient( new Ingredient( "yes", 5 ) );
+        r4.setPrice( 10 );
+        r4.setName( "yes" );
+
+        mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( r4 ) ) ).andExpect( status().isOk() );
+
+        final Recipe r5 = new Recipe();
+        r5.addIngredient( new Ingredient( "yes2", 5 ) );
+        r5.setPrice( 10 );
+        r5.setName( "yes2" );
+
+        mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( r5 ) ) ).andExpect( status().isInsufficientStorage() );
+
+        mvc.perform( delete( "/api/v1/recipes/Mocha" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( r5 ) ) ).andExpect( status().isOk() ).andReturn();
+
+        mvc.perform( delete( "/api/v1/recipes/this" ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( r2 ) ) ).andExpect( status().isNotFound() ).andReturn();
+
+        recipe = mvc.perform( get( "/api/v1/recipes" ) ).andDo( print() ).andExpect( status().isOk() ).andReturn()
+                .getResponse().getContentAsString();
+
+        // service.deleteAll();
+        //
+        // final Recipe r = new Recipe();
+        // r.addIngredient( new Ingredient( "chocolate", 5 ) );
+        // r.addIngredient( new Ingredient( "coffee", 3 ) );
+        // r.addIngredient( new Ingredient( "milk", 4 ) );
+        // r.addIngredient( new Ingredient( "sugar", 8 ) );
+        // r.setPrice( 10 );
+        // r.setName( "Mocha" );
+        //
+        // mvc.perform( post( "/api/v1/recipes" ).contentType(
+        // MediaType.APPLICATION_JSON )
+        // .content( TestUtils.asJsonString( r ) ) ).andExpect( status().isOk()
+        // );
 
     }
 

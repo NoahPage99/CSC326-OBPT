@@ -1,9 +1,9 @@
 package edu.ncsu.csc.CoffeeMaker.api;
 
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,12 +78,21 @@ public class APIIngredientTest {
             mvc.perform( post( "/api/v1/ingredients" ).contentType( MediaType.APPLICATION_JSON )
                     .content( TestUtils.asJsonString( i ) ) ).andExpect( status().isOk() );
 
+            mvc.perform( post( "/api/v1/ingredients" ).contentType( MediaType.APPLICATION_JSON )
+                    .content( TestUtils.asJsonString( i ) ) ).andExpect( status().isConflict() );
+
             /* Try get a recipe from the recipe database */
             ingredient = mvc.perform( get( "/api/v1/ingredients" ) ).andDo( print() ).andExpect( status().isOk() )
                     .andReturn().getResponse().getContentAsString();
 
             assertTrue( ingredient.contains(
                     "nutmeg" ) ); /* Make sure that now our recipe is there */
+
+            mvc.perform( get( "/api/v1/ingredients/idk" ).contentType( MediaType.APPLICATION_JSON )
+                    .content( TestUtils.asJsonString( i ) ) ).andExpect( status().isNotFound() ).andReturn();
+
+            mvc.perform( delete( "/api/v1/ingredients/idk" ).contentType( MediaType.APPLICATION_JSON )
+                    .content( TestUtils.asJsonString( i ) ) ).andExpect( status().isNotFound() ).andReturn();
 
             mvc.perform( delete( "/api/v1/ingredients/nutmeg" ).contentType( MediaType.APPLICATION_JSON )
                     .content( TestUtils.asJsonString( i ) ) ).andExpect( status().isOk() ).andReturn();
