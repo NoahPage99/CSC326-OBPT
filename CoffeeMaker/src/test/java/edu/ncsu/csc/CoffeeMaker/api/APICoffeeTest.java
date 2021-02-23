@@ -86,6 +86,13 @@ public class APICoffeeTest {
         mvc.perform( post( String.format( "/api/v1/makecoffee/%s", "Mocha" ) ).contentType( MediaType.APPLICATION_JSON )
                 .content( TestUtils.asJsonString( 100 ) ) ).andExpect( status().isOk() ).andDo( print() );
 
+        mvc.perform( post( String.format( "/api/v1/makecoffee/%s", "Mocha" ) ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( 5 ) ) ).andExpect( status().isConflict() );
+
+        mvc.perform( post( String.format( "/api/v1/makecoffee/%s", "BadRecipe" ) )
+                .contentType( MediaType.APPLICATION_JSON ).content( TestUtils.asJsonString( 100 ) ) )
+                .andExpect( status().isNotFound() );
+
     }
 
 }
