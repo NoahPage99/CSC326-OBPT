@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.RecipeService;
 
@@ -29,15 +30,15 @@ public class TestDatabaseInteraction {
         recipeService.deleteAll();
 
         final Recipe r = new Recipe();
+        // r1.setId(1L);
 
-        r.setName( "Special Drink" );
+        final Ingredient i = new Ingredient( "Milk", 1 );
+        final Ingredient i2 = new Ingredient( "Chocolate", 1 );
 
-        r.setChocolate( 5 );
-        r.setCoffee( 6 );
-        r.setMilk( 7 );
-        r.setSugar( 8 );
-
-        r.setPrice( 2 );
+        r.setName( "Black Coffee" );
+        r.setPrice( 1 );
+        r.addIngredient( i );
+        r.addIngredient( i2 );
 
         recipeService.save( r );
 
@@ -52,17 +53,17 @@ public class TestDatabaseInteraction {
          * because it only checks the name!
          */
         assertEquals( r.getName(), dbRecipe.getName() );
-        assertEquals( r.getChocolate(), dbRecipe.getChocolate() );
-        assertEquals( r.getMilk(), dbRecipe.getMilk() );
-        assertEquals( r.getSugar(), dbRecipe.getSugar() );
+        assertEquals( r.getName(), "Black Coffee" );
+        assertEquals( r.getIngredient(), dbRecipe.getIngredient() );
+        assertEquals( r.getId(), dbRecipe.getId() );
         assertEquals( r.getPrice(), dbRecipe.getPrice() );
 
-        final Recipe dbRecipeByName = recipeService.findByName( "Special Drink" );
+        final Recipe dbRecipeByName = recipeService.findByName( "Black Coffee" );
 
-        assertEquals( r.getChocolate(), dbRecipeByName.getChocolate() );
+        assertEquals( r.getIngredient(), dbRecipeByName.getIngredient() );
 
         dbRecipe.setPrice( 15 );
-        dbRecipe.setSugar( 12 );
+
         recipeService.save( dbRecipe );
 
         assertEquals( 1, recipeService.count() );
@@ -77,15 +78,15 @@ public class TestDatabaseInteraction {
         recipeService.deleteAll();
 
         final Recipe r = new Recipe();
+        // r1.setId(1L);
 
-        r.setName( "coffee" );
+        final Ingredient i = new Ingredient( "Milk", 1 );
+        final Ingredient i2 = new Ingredient( "Chocolate", 1 );
 
-        r.setChocolate( 5 );
-        r.setCoffee( 6 );
-        r.setMilk( 7 );
-        r.setSugar( 8 );
-
-        r.setPrice( 2 );
+        r.setName( "Black Coffee" );
+        r.setPrice( 1 );
+        r.addIngredient( i );
+        r.addIngredient( i2 );
 
         recipeService.save( r );
 
@@ -100,17 +101,17 @@ public class TestDatabaseInteraction {
          * because it only checks the name!
          */
         assertEquals( r.getName(), dbRecipe.getName() );
-        assertEquals( r.getChocolate(), dbRecipe.getChocolate() );
-        assertEquals( r.getMilk(), dbRecipe.getMilk() );
-        assertEquals( r.getSugar(), dbRecipe.getSugar() );
+        assertEquals( r.getName(), "Black Coffee" );
+        assertEquals( r.getIngredient(), dbRecipe.getIngredient() );
+        assertEquals( r.getId(), dbRecipe.getId() );
         assertEquals( r.getPrice(), dbRecipe.getPrice() );
 
-        final Recipe dbRecipeByName = recipeService.findByName( "coffee" );
+        final Recipe dbRecipeByName = recipeService.findByName( "Black Coffee" );
 
-        assertEquals( r.getChocolate(), dbRecipeByName.getChocolate() );
+        assertEquals( r.getIngredient(), dbRecipeByName.getIngredient() );
 
         dbRecipe.setPrice( 15 );
-        dbRecipe.setSugar( 12 );
+
         recipeService.save( dbRecipe );
 
         assertEquals( 1, recipeService.count() );
@@ -122,4 +123,5 @@ public class TestDatabaseInteraction {
         assertEquals( 0, recipeService.count() );
 
     }
+
 }

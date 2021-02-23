@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.RecipeService;
 
@@ -54,10 +55,10 @@ public class APITest {
 
         final Recipe recipe = new Recipe();
         recipe.setName( "Delicious Not-Coffee" );
-        recipe.setChocolate( 10 );
-        recipe.setMilk( 20 );
-        recipe.setSugar( 5 );
-        recipe.setCoffee( 1 );
+        recipe.addIngredient( new Ingredient( "chocolate", 10 ) );
+        recipe.addIngredient( new Ingredient( "milk", 20 ) );
+        recipe.addIngredient( new Ingredient( "sugar", 5 ) );
+        recipe.addIngredient( new Ingredient( "coffee", 1 ) );
 
         recipe.setPrice( 5 );
 
