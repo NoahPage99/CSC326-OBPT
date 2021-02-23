@@ -1,5 +1,7 @@
 package edu.ncsu.csc.CoffeeMaker.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,16 @@ public class APIIngredientController extends APIController {
 
     @Autowired
     private IngredientService ingredientService;
+
+    /**
+     * REST API method to provide GET access to all ingredients in the system
+     *
+     * @return JSON representation of all ingredients
+     */
+    @GetMapping ( BASE_PATH + "/ingredients" )
+    public List<Ingredient> getIngredients () {
+        return (List<Ingredient>) ingredientService.findAll();
+    }
 
     @GetMapping ( BASE_PATH + "/ingredients/{name}" )
     public ResponseEntity getIngredient ( @PathVariable ( "name" ) final String name ) {
@@ -46,7 +58,7 @@ public class APIIngredientController extends APIController {
     public ResponseEntity deleteRecipe ( @PathVariable final String name ) {
         final Ingredient ingredient = ingredientService.findByName( name );
         if ( null == ingredient ) {
-            return new ResponseEntity( errorResponse( "No recipe found for name " + name ), HttpStatus.NOT_FOUND );
+            return new ResponseEntity( errorResponse( "No ingredient found for name " + name ), HttpStatus.NOT_FOUND );
         }
         ingredientService.delete( ingredient );
 
