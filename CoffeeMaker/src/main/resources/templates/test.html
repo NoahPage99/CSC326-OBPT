@@ -22,6 +22,20 @@
 				
 				$scope.branches = ["development", "frontend-data-entry", "backend", "developmentT2", 
 					"developmentT1", "main", "kpresle-test", "kpresle-test-2", "frontend-display"];
+				
+				$scope.commitData = {
+				        "Kai Presler-Marshall (kpresle@ncsu.edu)":
+				            [
+				                { "count": 0, "display": "01/03/2020 00:00", "timestamp": 1583038800000 },
+				                { "count": 0, "display": "03/03/2020 00:00", "timestamp": 1583211600000 }
+				            ],
+				        "Sara Ghodsi (sghodsi@ncsu.edu)":
+				            [
+				                { "count": 0, "display": "01/03/2020 00:00", "timestamp": 1583038800000 },
+				                { "count": 0, "display": "03/03/2020 00:00", "timestamp": 1583211600000 },
+				                { "count": 0, "display": "05/03/2020 00:00", "timestamp": 1583384400000 }
+				            ]
+				    };
 
 				/* Logic that handles controlling your page goes here */
 
@@ -52,6 +66,13 @@
 						<input type="checkbox" ng-model="$parent.selectedBranches[branch]">
 						<tt> {{branch}}</tt>
 						</input>
+					</div>
+				</div>
+
+				<div ng-repeat="(user, commits) in commitData track by $index">
+					Commits for {{user}}:<br />
+					<div id="{{user}}">
+						<li ng-repeat="commit in commits">{{commit.display}}</li>
 					</div>
 				</div>
 			</div>
