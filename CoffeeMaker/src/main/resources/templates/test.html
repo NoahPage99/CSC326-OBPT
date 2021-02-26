@@ -3,23 +3,23 @@
 <!--- Header information about the page -->
 <body>
 	<div layout:fragment="content">
-		<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
 		<script>
 			/* Without these comments, Thymeleaf will try to parse the Javascript as XML and break itself sometimes */
-			/*<![CDATA[*/ 
+			/*<![CDATA[*/
 			var app = angular.module('myApp', []);
 			app.controller('populateCtrl', function($scope, $http, $q) {
-				$scope.myfunction = function(){
-					console.log("hello");
+				$scope.myFunction = function() {
+					console.log($scope.x - $scope.y);
 				}
+				
+				
 
 				/* Logic that handles controlling your page goes here */
 
 			});
-			
-			
-			
-			
+
 			/* Without these comments, Thymeleaf will try to parse the Javascript as XML and break itself sometimes */
 			/*]]>*/
 		</script>
@@ -27,9 +27,15 @@
 		<div ng-app="myApp" ng-controller="populateCtrl">
 
 			<!--- Various HTML elements, with extra tags telling Angular how to work with them, go here -->
-			<button type="button" ng-click="myFunction()" >Click Me! </button>
+			<input type="text" ng-model="x" required="true" /> 			
+			<input type="text" ng-model="y" required="true" /> The result is {{ x - y }}
+			<div>
+			<button type="button" ng-click="myFunction()">Click Me!</button>
+			</div>
+
+
 		</div>
-		
+
 	</div>
 
 </body>
