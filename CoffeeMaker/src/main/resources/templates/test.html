@@ -9,10 +9,16 @@
 			/*<![CDATA[*/ 
 			var app = angular.module('myApp', []);
 			app.controller('populateCtrl', function($scope, $http, $q) {
+				$scope.myfunction = function(){
+					console.log("hello");
+				}
 
 				/* Logic that handles controlling your page goes here */
 
 			});
+			
+			
+			
 			
 			/* Without these comments, Thymeleaf will try to parse the Javascript as XML and break itself sometimes */
 			/*]]>*/
@@ -21,7 +27,7 @@
 		<div ng-app="myApp" ng-controller="populateCtrl">
 
 			<!--- Various HTML elements, with extra tags telling Angular how to work with them, go here -->
-
+			<button type="button" ng-click="myFunction()" >Click Me! </button>
 		</div>
 		
 	</div>
