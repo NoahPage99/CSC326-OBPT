@@ -19,6 +19,9 @@
 					{value: 3, display: 'Monthly'},
 					{value: 4, display: 'Annual'}
 				];
+				
+				$scope.branches = ["development", "frontend-data-entry", "backend", "developmentT2", 
+					"developmentT1", "main", "kpresle-test", "kpresle-test-2", "frontend-display"];
 
 				/* Logic that handles controlling your page goes here */
 
@@ -41,6 +44,15 @@
 						ng-options="item as item.display for item in time" required="true">
 						<option value="">Select time interval for viewing data</option>
 					</select>
+				</div>
+
+				<div class="col-sm">
+					(Optional) Select the branches to view <br />
+					<div ng-repeat="branch in branches track by $index">
+						<input type="checkbox" ng-model="$parent.selectedBranches[branch]">
+						<tt> {{branch}}</tt>
+						</input>
+					</div>
 				</div>
 			</div>
 
