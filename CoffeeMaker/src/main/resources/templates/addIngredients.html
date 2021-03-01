@@ -102,7 +102,7 @@
 								<input type="text" ng-model="ingredient.name" name="name"
 									class="name form-control input-sm"
 									placeholder="Name" required="true" />
-								<div class="has-error" ng-show="addInventoryForm.$dirty">
+								<div class="has-error" ng-show="addIngredientForm.$dirty">
 									<span ng-show="addIngredientForm.name.$error.required">This
 										is a required field</span> <span
 										ng-show="addIngredientForm.name.$error.min">Needs to be a Name
@@ -117,10 +117,16 @@
 						<div class="form-group col-md-12">
 							<label class="col-md-2 control-lable" for="file">Initial Amount</label>
 							<div class="col-md-7">
-								<input type="text" ng-model="ingredient.price" name="price"
+								<input type="text" ng-model="ingredient.amount" name="amount"
 									class="amount form-control input-sm"
 									placeholder="Amount" required="true" />
-								
+								<div class="has-error" ng-show="addIngredientForm.$dirty">
+									<span ng-show="addIngredientForm.amount.$error.required">This
+										is a required field</span> <span
+										ng-show="addIngredientForm.amount.$error.min">Needs to be a Name
+										</span> <span ng-show="addIngredientForm.amount.$invalid">This
+										field is invalid </span>
+								</div>
 							</div>
 						</div>
 					</div>
