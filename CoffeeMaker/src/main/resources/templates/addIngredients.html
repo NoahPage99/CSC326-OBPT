@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add a Recipe</title>
+<title>Add a Ingredient</title>
 <style>
 .username.ng-valid {
 	background-color: lightgreen;
@@ -30,11 +30,55 @@
 <body>
 	<div layout:fragment="content">
 
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+			
 		<script> 
     /*<![CDATA[*/
 		var app = angular.module('myApp', []);
-		app.controller('recipesCtrl', function($scope, $http, $q) {
+		app.controller('addIngredientCtrl', function($scope, $http, $q) {
 			
+			$scope.ingredientOriginal = {
+					name : '',
+					amount : '',
+				};
+			
+			$scope.getIngredient = function() {
+				$http.get("/api/v1/ingredients").then(function(response) {
+					$scope.ingredientOriginal = response.data;
+				}, function(rejection) {
+					console.error("Error while getting Ingredient");
+				})
+			}
+			
+			$scope.updateIngredient = function() {
+				$scope.success = false;
+				$scope.failure = false;
+
+				$http.put("/api/v1/ingredients", $scope.ingredient).then(
+						function(response) {
+							$scope.getIngredient();
+
+						}, function(rejection) {
+							$scope.failure = true;
+							$scope.success = false;
+							console.error("Error while updating Ingredient!");
+						});
+				$scope.success = !($scope.failure);
+			}
+			
+			$scope.reset = function() {
+				$scope.ingredient = {
+						name : '',
+						amount : '',
+						
+				};
+				
+				if (undefined != $scope.addIngredientForm) {
+					$scope.addIngredientForm.$setPristine(); //reset Form
+				}
+			}
+
 			
 		});
 	/*]]>*/
@@ -57,8 +101,14 @@
 							<div class="col-md-7">
 								<input type="text" ng-model="ingredient.name" name="name"
 									class="name form-control input-sm"
-									placeholder="Name" required="0" />
-								
+									placeholder="Name" required="true" />
+								<div class="has-error" ng-show="addInventoryForm.$dirty">
+									<span ng-show="addIngredientForm.name.$error.required">This
+										is a required field</span> <span
+										ng-show="addIngredientForm.name.$error.min">Needs to be a Name
+										</span> <span ng-show="addIngredientForm.name.$invalid">This
+										field is invalid </span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -69,7 +119,7 @@
 							<div class="col-md-7">
 								<input type="text" ng-model="ingredient.price" name="price"
 									class="amount form-control input-sm"
-									placeholder="Amount" required="0" />
+									placeholder="Amount" required="true" />
 								
 							</div>
 						</div>
@@ -82,10 +132,10 @@
 						<div class="form-actions floatRight">
 							<input type="submit" value="Submit"
 								class="btn btn-primary btn-sm"
-								ng-disabled="addRecipeForm.$invalid" />
+								ng-disabled="addIngredientForm.$invalid" />
 							<button type="button" ng-click="reset()"
 								class="btn btn-warning btn-sm"
-								ng-disabled="addRecipeForm.$pristine">Reset Form</button>
+								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
 						</div>
 					</div>
 				</form>
