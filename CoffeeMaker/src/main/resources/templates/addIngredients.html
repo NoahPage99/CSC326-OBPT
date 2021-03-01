@@ -39,37 +39,38 @@
 		app.controller('addIngredientCtrl', function($scope, $http, $q) {
 			
 			$scope.ingredientOriginal = {
-					name : '',
+					ingredient : '',
 					amount : '',
 				};
 			
-			$scope.getIngredient = function() {
-				$http.get("/api/v1/ingredients").then(function(response) {
-					$scope.ingredientOriginal = response.data;
-				}, function(rejection) {
-					console.error("Error while getting Ingredient");
-				})
-			}
+			
 			
 			$scope.updateIngredient = function() {
 				$scope.success = false;
 				$scope.failure = false;
 
-				$http.put("/api/v1/ingredients", $scope.ingredient).then(
+				$http.post("/api/v1/ingredients", $scope.ingredient).then(
 						function(response) {
-							$scope.getIngredient();
+							$scope.success = true;
+							$scope.failure = false;
 
 						}, function(rejection) {
 							$scope.failure = true;
 							$scope.success = false;
 							console.error("Error while updating Ingredient!");
+							
 						});
 				$scope.success = !($scope.failure);
 			}
 			
+			$scope.submit = function() {
+				$scope.updateIngredient();
+				$scope.reset();
+			}
+			
 			$scope.reset = function() {
 				$scope.ingredient = {
-						name : '',
+						ingredient : '',
 						amount : '',
 						
 				};
@@ -99,7 +100,7 @@
 						<div class="form-group col-md-12">
 							<label class="col-md-2 control-lable" for="file">Name</label>
 							<div class="col-md-7">
-								<input type="text" ng-model="ingredient.name" name="name"
+								<input type="text" ng-model="ingredient.ingredient" name="name"
 									class="name form-control input-sm"
 									placeholder="Name" required="true" />
 								<div class="has-error" ng-show="addIngredientForm.$dirty">
@@ -123,7 +124,7 @@
 								<div class="has-error" ng-show="addIngredientForm.$dirty">
 									<span ng-show="addIngredientForm.amount.$error.required">This
 										is a required field</span> <span
-										ng-show="addIngredientForm.amount.$error.min">Needs to be a Name
+										ng-show="addIngredientForm.amount.$error.min">Invalid Amount
 										</span> <span ng-show="addIngredientForm.amount.$invalid">This
 										field is invalid </span>
 								</div>
@@ -139,10 +140,13 @@
 							<input type="submit" value="Submit"
 								class="btn btn-primary btn-sm"
 								ng-disabled="addIngredientForm.$invalid" />
+								
 							<button type="button" ng-click="reset()"
 								class="btn btn-warning btn-sm"
 								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
 						</div>
+						<div ng-show="failure">Error Adding Ingredient </div>
+						<div ng-show="success">Ingredient Added</div>
 					</div>
 				</form>
 			</div>
