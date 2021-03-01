@@ -169,6 +169,15 @@ public class Inventory extends DomainObject {
         return null;
     }
 
+    public Ingredient deleteIngredient ( final String name ) {
+        for ( int i = 0; i < ingredients.size(); i++ ) {
+            if ( ingredients.get( i ).getIngredient().equals( name ) ) {
+                return ingredients.remove( i );
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString () {
         return "Inventory [ingredients=" + ingredients + "]";
