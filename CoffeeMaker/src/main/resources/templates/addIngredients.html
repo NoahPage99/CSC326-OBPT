@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add a Recipe</title>
+<title>Add a Ingredient</title>
 <style>
 .username.ng-valid {
 	background-color: lightgreen;
@@ -35,6 +35,49 @@
 		var app = angular.module('myApp', []);
 		app.controller('recipesCtrl', function($scope, $http, $q) {
 			
+			$scope.ingredientOriginal = {
+					name : '',
+					amount : '',
+				};
+			
+			$scope.getIngredient = function() {
+				$http.get("/api/v1/ingredients").then(function(response) {
+					$scope.ingredientOriginal = response.data;
+				}, function(rejection) {
+					console.error("Error while getting Ingredient");
+				})
+			}
+			
+			$scope.updateInventory = function() {
+				$scope.success = false;
+				$scope.failure = false;
+
+				$http.put("/api/v1/ingredients", $scope.ingredient).then(
+						function(response) {
+							$scope.getInventory();
+
+						}, function(rejection) {
+							$scope.failure = true;
+							$scope.success = false;
+							console.error("Error while updating Inventory!");
+						});
+				$scope.success = !($scope.failure);
+			}
+			
+			$scope.reset = function() {
+				console.log("reset");
+				$scope.ingredient = {
+						name : '',
+						amount : '',
+						
+				};
+				
+				if (undefined != $scope.addIngredientForm) {
+					console.log("reset");
+					$scope.addIngredientForm.$setPristine(); //reset Form
+				}
+			}
+
 			
 		});
 	/*]]>*/
@@ -57,7 +100,7 @@
 							<div class="col-md-7">
 								<input type="text" ng-model="ingredient.name" name="name"
 									class="name form-control input-sm"
-									placeholder="Name" required="0" />
+									placeholder="Name" required="true" />
 								
 							</div>
 						</div>
@@ -69,7 +112,7 @@
 							<div class="col-md-7">
 								<input type="text" ng-model="ingredient.price" name="price"
 									class="amount form-control input-sm"
-									placeholder="Amount" required="0" />
+									placeholder="Amount" required="true" />
 								
 							</div>
 						</div>
@@ -82,10 +125,9 @@
 						<div class="form-actions floatRight">
 							<input type="submit" value="Submit"
 								class="btn btn-primary btn-sm"
-								ng-disabled="addRecipeForm.$invalid" />
-							<button type="button" ng-click="reset()"
-								class="btn btn-warning btn-sm"
-								ng-disabled="addRecipeForm.$pristine">Reset Form</button>
+								ng-disabled="addIngredientForm.$invalid" />
+							<button type="button" ng-click="reset()">
+								Reset Form</button>
 						</div>
 					</div>
 				</form>
