@@ -30,10 +30,13 @@
 <body>
 	<div layout:fragment="content">
 
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+			
 		<script> 
     /*<![CDATA[*/
 		var app = angular.module('myApp', []);
-		app.controller('recipesCtrl', function($scope, $http, $q) {
+		app.controller('addIngredientCtrl', function($scope, $http, $q) {
 			
 			$scope.ingredientOriginal = {
 					name : '',
@@ -48,24 +51,23 @@
 				})
 			}
 			
-			$scope.updateInventory = function() {
+			$scope.updateIngredient = function() {
 				$scope.success = false;
 				$scope.failure = false;
 
 				$http.put("/api/v1/ingredients", $scope.ingredient).then(
 						function(response) {
-							$scope.getInventory();
+							$scope.getIngredient();
 
 						}, function(rejection) {
 							$scope.failure = true;
 							$scope.success = false;
-							console.error("Error while updating Inventory!");
+							console.error("Error while updating Ingredient!");
 						});
 				$scope.success = !($scope.failure);
 			}
 			
 			$scope.reset = function() {
-				console.log("reset");
 				$scope.ingredient = {
 						name : '',
 						amount : '',
@@ -73,7 +75,6 @@
 				};
 				
 				if (undefined != $scope.addIngredientForm) {
-					console.log("reset");
 					$scope.addIngredientForm.$setPristine(); //reset Form
 				}
 			}
@@ -101,7 +102,13 @@
 								<input type="text" ng-model="ingredient.name" name="name"
 									class="name form-control input-sm"
 									placeholder="Name" required="true" />
-								
+								<div class="has-error" ng-show="addInventoryForm.$dirty">
+									<span ng-show="addIngredientForm.name.$error.required">This
+										is a required field</span> <span
+										ng-show="addIngredientForm.name.$error.min">Needs to be a Name
+										</span> <span ng-show="addIngredientForm.name.$invalid">This
+										field is invalid </span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -126,8 +133,9 @@
 							<input type="submit" value="Submit"
 								class="btn btn-primary btn-sm"
 								ng-disabled="addIngredientForm.$invalid" />
-							<button type="button" ng-click="reset()">
-								Reset Form</button>
+							<button type="button" ng-click="reset()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="addIngredientForm.$pristine">Reset Form</button>
 						</div>
 					</div>
 				</form>
