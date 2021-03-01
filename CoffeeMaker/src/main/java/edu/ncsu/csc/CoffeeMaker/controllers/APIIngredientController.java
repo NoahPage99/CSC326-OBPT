@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
+import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.services.IngredientService;
+import edu.ncsu.csc.CoffeeMaker.services.InventoryService;
 
 @SuppressWarnings ( { "unchecked", "rawtypes" } )
 @RestController
@@ -21,6 +23,8 @@ public class APIIngredientController extends APIController {
 
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private InventoryService  inventoryService;
 
     /**
      * REST API method to provide GET access to all ingredients in the system
@@ -48,7 +52,10 @@ public class APIIngredientController extends APIController {
                     successResponse( "Ingredient with the name " + ingredient.getIngredient() + " already exists" ),
                     HttpStatus.CONFLICT );
         }
+        final Inventory currentInventory = inventoryService.getInventory();
+        currentInventory.addIngredient( ingredient );
         ingredientService.save( ingredient );
+        inventoryService.save( currentInventory );
         return new ResponseEntity( successResponse( ingredient.getIngredient() + " successfully created" ),
                 HttpStatus.OK );
 
@@ -60,7 +67,10 @@ public class APIIngredientController extends APIController {
         if ( null == ingredient ) {
             return new ResponseEntity( errorResponse( "No ingredient found for name " + name ), HttpStatus.NOT_FOUND );
         }
+        final Inventory currentInventory = inventoryService.getInventory();
+        currentInventory.deleteIngredient( ingredient.getIngredient() );
         ingredientService.delete( ingredient );
+        inventoryService.save( currentInventory );
 
         return new ResponseEntity( successResponse( name + " was deleted successfully" ), HttpStatus.OK );
     }
