@@ -37,29 +37,14 @@
 			console.log("Hit!");
 
 			$scope.getIngredient = [];
+			$scope.count = 0;
 			
-			
-			$scope.getIngredients = function(){
-				$scope.success = false;
-				$scope.failure = false;
-
-				$http.get("/api/v1/ingredients").then(
-						function(success) {
-							$scope.getIngredient = response.data;
-							$scope.success = true;
-							$scope.failure = false;
-						}, function(rejection) {
-							console.error("Error while getting list");
-						});
-				
-			}
 			
 			$scope.reset = function() {
 				$scope.recipe = {
 					name : '',
 					price : '',
-					ingredient : '',
-					amount : '',
+					ingredient : []
 				};
 				if (undefined != $scope.addRecipeForm) {
 					$scope.addRecipeForm.$setPristine(); // reset Form
@@ -81,17 +66,29 @@
 							$scope.success = true;
 							$scope.failure = false;
 						}, function(rejection) {
+							$scope.failure = true;
 							console.error("Error while adding recipe");
 						});
+				$scope.getIngredients();
 			}
 			
 			$scope.getIngredients = function() {
-				$http.get("/api/v1/ingredients").then(
+				$http.get("/api/v1/inventory").then(
 						function(response) {
-							$scope.getIngredient = response.data;
+							$scope.getIngredient = response.data.ingredient;
 							console.log($scope.getIngredient);
 						}
 				)
+			}
+			
+			$scope.addToRecipe = function() {
+			     $scope.recipe.ingredient[$scope.count] = {ingredient: $scope.selectedName.ingredient, amount: $scope.selectedAmount};
+			     $scope.count = $scope.count + 1;
+			     $scope.getIngredient.splice($scope.getIngredient.indexOf($scope.selectedName), 1);
+			     console.log($scope.getIngredient);
+			     console.log($scope.count);
+			     console.log($scope.recipe.ingredient);
+			     
 			}
 
 			$scope.getIngredients();
@@ -149,73 +146,21 @@
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="form-group col-md-12">
-							<div class="col-md-7">
-							<input type="text" ng-model="recipe.milk" name="milk"
-									class="coffee form-control input-sm"
-									placeholder="Enter the ingredient" required="0" />
-								<input type="text" ng-model="recipe.amount" name="amount"
-									class="amount form-control input-sm"
-									placeholder="Enter amount of ingredient" required="false" />								
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-					<!-- <div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Milk</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="recipe.milk" name="milk"
-									class="milk form-control input-sm"
-									placeholder="Enter amount of milk" required="false" />
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									 
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Sugar</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="recipe.sugar" name="sugar"
-									class="sugar form-control input-sm"
-									placeholder="Enter amount of sugar" required="false" />
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									 
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Chocolate</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="recipe.chocolate" name="chocolate"
-									class="chocolate form-control input-sm"
-									placeholder="Enter amount of chocolate" required="false" />
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									 
-								</div>
-							</div>
-						</div>
-					</div>-->
 
 					
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Other</label>
+							<label class="col-md-2 control-lable" for="file">Ingredient</label>
 							<div class="col-md-7">
-								<select ng-model="interval" ng-options="item as item.ingredient for item in getIngredient"  required="false">
+								<select ng-model="selectedName" ng-options="item as item.ingredient for item in getIngredient" name="ingr" ng-required="false">
 									<option value=""> Select Ingredient</option> </select>
+								<input type="text" ng-model="selectedAmount" name="amount"
+									class="amount form-control input-sm"
+									placeholder="Enter ingredient amount" required="0" />
+								<button type="button" ng-click="addToRecipe()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="addRecipeForm.$pristine">Add to Recipe</button>
+								
 								<div class="has-error" ng-show="addRecipeForm.$dirty">
 									
 								</div>

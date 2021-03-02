@@ -87,21 +87,21 @@ public class InventoryTest {
         ivt = inventoryService.getInventory();
 
         int testAmount = 0;
-        for ( int i = 0; i < ivt.getIngredients().size(); i++ ) {
-            if ( ivt.getIngredients().get( i ).getIngredient().equals( "chocolate" ) ) {
-                testAmount = ivt.getIngredients().get( i ).getAmount();
+        for ( int i = 0; i < ivt.getIngredient().size(); i++ ) {
+            if ( ivt.getIngredient().get( i ).getIngredient().equals( "chocolate" ) ) {
+                testAmount = ivt.getIngredient().get( i ).getAmount();
                 assertEquals( 550, testAmount );
             }
-            if ( ivt.getIngredients().get( i ).getIngredient().equals( "coffee" ) ) {
-                testAmount = ivt.getIngredients().get( i ).getAmount();
+            if ( ivt.getIngredient().get( i ).getIngredient().equals( "coffee" ) ) {
+                testAmount = ivt.getIngredient().get( i ).getAmount();
                 assertEquals( 510, testAmount );
             }
-            if ( ivt.getIngredients().get( i ).getIngredient().equals( "milk" ) ) {
-                testAmount = ivt.getIngredients().get( i ).getAmount();
+            if ( ivt.getIngredient().get( i ).getIngredient().equals( "milk" ) ) {
+                testAmount = ivt.getIngredient().get( i ).getAmount();
                 assertEquals( 525, testAmount );
             }
-            if ( ivt.getIngredients().get( i ).getIngredient().equals( "sugar" ) ) {
-                testAmount = ivt.getIngredients().get( i ).getAmount();
+            if ( ivt.getIngredient().get( i ).getIngredient().equals( "sugar" ) ) {
+                testAmount = ivt.getIngredient().get( i ).getAmount();
                 assertEquals( 515, testAmount );
             }
         }
@@ -203,9 +203,9 @@ public class InventoryTest {
         ivt = inventoryService.getInventory();
 
         int testAmount = 0;
-        for ( int i = 0; i < ivt.getIngredients().size(); i++ ) {
-            if ( ivt.getIngredients().get( i ).getIngredient().equals( "creamer" ) ) {
-                testAmount = ivt.getIngredients().get( i ).getAmount();
+        for ( int i = 0; i < ivt.getIngredient().size(); i++ ) {
+            if ( ivt.getIngredient().get( i ).getIngredient().equals( "creamer" ) ) {
+                testAmount = ivt.getIngredient().get( i ).getAmount();
                 assertEquals( 4, testAmount );
             }
         }

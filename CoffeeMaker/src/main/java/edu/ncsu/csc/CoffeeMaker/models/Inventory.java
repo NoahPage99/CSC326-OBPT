@@ -27,19 +27,19 @@ public class Inventory extends DomainObject {
 
     /** List of ingredients **/
     @OneToMany ( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-    private final List<Ingredient> ingredients;
+    private final List<Ingredient> ingredient;
 
     /**
      * Empty constructor for Hibernate
      */
     public Inventory () {
-        this.ingredients = new LinkedList<Ingredient>();
+        this.ingredient = new LinkedList<Ingredient>();
         // Intentionally empty so that Hibernate can instantiate
         // Inventory object.
     }
 
-    public List<Ingredient> getIngredients () {
-        return ingredients;
+    public List<Ingredient> getIngredient () {
+        return ingredient;
     }
 
     /**
@@ -96,9 +96,9 @@ public class Inventory extends DomainObject {
     public boolean enoughIngredients ( final Recipe r ) {
         final List<Ingredient> ing = r.getIngredient();
         for ( int i = 0; i < ing.size(); i++ ) {
-            for ( int j = 0; j < ingredients.size(); j++ ) {
-                if ( ing.get( i ).getIngredient().equals( ingredients.get( j ).getIngredient() ) ) {
-                    if ( ingredients.get( j ).getAmount() - ing.get( i ).getAmount() < 0 ) {
+            for ( int j = 0; j < ingredient.size(); j++ ) {
+                if ( ing.get( i ).getIngredient().equals( ingredient.get( j ).getIngredient() ) ) {
+                    if ( ingredient.get( j ).getAmount() - ing.get( i ).getAmount() < 0 ) {
                         return false;
                     }
                 }
@@ -119,9 +119,9 @@ public class Inventory extends DomainObject {
         if ( enoughIngredients( r ) ) {
             final List<Ingredient> ing = r.getIngredient();
             for ( int i = 0; i < ing.size(); i++ ) {
-                for ( int j = 0; j < ingredients.size(); j++ ) {
-                    if ( ing.get( i ).getIngredient().equals( ingredients.get( j ).getIngredient() ) ) {
-                        ingredients.get( j ).setAmount( ingredients.get( j ).getAmount() - ing.get( i ).getAmount() );
+                for ( int j = 0; j < ingredient.size(); j++ ) {
+                    if ( ing.get( i ).getIngredient().equals( ingredient.get( j ).getIngredient() ) ) {
+                        ingredient.get( j ).setAmount( ingredient.get( j ).getAmount() - ing.get( i ).getAmount() );
                     }
                 }
             }
@@ -142,13 +142,13 @@ public class Inventory extends DomainObject {
      *
      */
     public boolean addIngredient ( final Ingredient ing ) {
-        for ( int i = 0; i < ingredients.size(); i++ ) {
-            if ( ing.getIngredient().equals( ingredients.get( i ).getIngredient() ) ) {
-                ingredients.get( i ).setAmount( ing.getAmount() + ingredients.get( i ).getAmount() );
+        for ( int i = 0; i < ingredient.size(); i++ ) {
+            if ( ing.getIngredient().equals( ingredient.get( i ).getIngredient() ) ) {
+                ingredient.get( i ).setAmount( ing.getAmount() + ingredient.get( i ).getAmount() );
                 return true;
             }
         }
-        ingredients.add( ing );
+        ingredient.add( ing );
         return true;
     }
 
@@ -161,18 +161,18 @@ public class Inventory extends DomainObject {
      *         that name
      */
     public Ingredient getIngredientByName ( final String name ) {
-        for ( int i = 0; i < ingredients.size(); i++ ) {
-            if ( ingredients.get( i ).getIngredient().equals( name ) ) {
-                return ingredients.get( i );
+        for ( int i = 0; i < ingredient.size(); i++ ) {
+            if ( ingredient.get( i ).getIngredient().equals( name ) ) {
+                return ingredient.get( i );
             }
         }
         return null;
     }
 
     public Ingredient deleteIngredient ( final String name ) {
-        for ( int i = 0; i < ingredients.size(); i++ ) {
-            if ( ingredients.get( i ).getIngredient().equals( name ) ) {
-                return ingredients.remove( i );
+        for ( int i = 0; i < ingredient.size(); i++ ) {
+            if ( ingredient.get( i ).getIngredient().equals( name ) ) {
+                return ingredient.remove( i );
             }
         }
         return null;
@@ -180,7 +180,7 @@ public class Inventory extends DomainObject {
 
     @Override
     public String toString () {
-        return "Inventory [ingredients=" + ingredients + "]";
+        return "Inventory [ingredients=" + ingredient + "]";
     }
 
 }

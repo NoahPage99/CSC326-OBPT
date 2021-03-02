@@ -203,7 +203,7 @@ public class InventoryStepDefs {
             // inventory.setMilk( amtMilk );
             // inventory.setSugar( amtSugar );
             // inventory.setChocolate( amtChocolate );
-            inventory.getIngredients().clear();
+            inventory.getIngredient().clear();
             inventory.addIngredient( new Ingredient( "coffee", amtCoffee ) );
             inventory.addIngredient( new Ingredient( "milk", amtMilk ) );
             inventory.addIngredient( new Ingredient( "sugar", amtSugar ) );
