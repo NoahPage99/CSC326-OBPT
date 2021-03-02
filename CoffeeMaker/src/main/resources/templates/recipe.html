@@ -37,10 +37,7 @@
 			console.log("Hit!");
 
 			$scope.getIngredient = [
-				{value: 1, ingredient: 'Daily'},
-				{value: 2, ingredient: 'Weekly'},
-				{value: 3, ingredient: 'Monthly'},
-				{value: 4, ingredient: 'Annual'}
+				
 			];
 			
 			
@@ -50,6 +47,7 @@
 
 				$http.get("/api/v1/ingredients").then(
 						function(success) {
+							$scope.getIngredient = response.data;
 							$scope.success = true;
 							$scope.failure = false;
 						}, function(rejection) {
@@ -201,7 +199,8 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>-->
+
 					
 					<div class="row">
 						<div class="form-group col-md-12">
@@ -214,8 +213,7 @@
 								</div>
 							</div>
 						</div>
-					</div>-->
-
+					</div>
 
 					<div class="row">
 						<div class="form-actions floatRight">
