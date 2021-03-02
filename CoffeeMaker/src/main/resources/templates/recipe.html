@@ -36,9 +36,7 @@
 		app.controller('addRecipeCtrl', function($scope, $http, $q) {
 			console.log("Hit!");
 
-			$scope.getIngredient = [
-				
-			];
+			$scope.getIngredient = [];
 			
 			
 			$scope.getIngredients = function(){
@@ -86,7 +84,17 @@
 							console.error("Error while adding recipe");
 						});
 			}
+			
+			$scope.getIngredients = function() {
+				$http.get("/api/v1/ingredients").then(
+						function(response) {
+							$scope.getIngredient = response.data;
+							console.log($scope.getIngredient);
+						}
+				)
+			}
 
+			$scope.getIngredients();
 			$scope.reset();
 
 		});
@@ -206,7 +214,7 @@
 						<div class="form-group col-md-12">
 							<label class="col-md-2 control-lable" for="file">Other</label>
 							<div class="col-md-7">
-								<select ng-model="recipe.other" ng-options="item as item.ingredient for item in getIngredients" required="false">
+								<select ng-model="interval" ng-options="item as item.ingredient for item in getIngredient"  required="false">
 									<option value=""> Select Ingredient</option> </select>
 								<div class="has-error" ng-show="addRecipeForm.$dirty">
 									
