@@ -145,8 +145,15 @@
 							</div>
 						</div>
 					</div>
+					
+					<div ng-repeat="detail in recipe.ingredient">
+					
+						{{detail.ingredient}}: {{detail.amount}}<br />
+						
+					
+					</div>
 
-
+					<br />
 					
 					<div class="row">
 						<div class="form-group col-md-12">
@@ -159,7 +166,7 @@
 									placeholder="Enter ingredient amount" required="0" />
 								<button type="button" ng-click="addToRecipe()"
 								class="btn btn-warning btn-sm"
-								ng-disabled="addRecipeForm.$pristine">Add to Recipe</button>
+								ng-disabled="addRecipeForm.$pristine" name="addIngBtn">Add to Recipe</button>
 								
 								<div class="has-error" ng-show="addRecipeForm.$dirty">
 									

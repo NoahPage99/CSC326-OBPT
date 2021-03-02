@@ -78,7 +78,7 @@ public class APIRecipeTest {
         r2.setName( "coffee" );
 
         mvc.perform( post( "/api/v1/recipes" ).contentType( MediaType.APPLICATION_JSON )
-                .content( TestUtils.asJsonString( r2 ) ) ).andExpect( status().isConflict() );
+                .content( TestUtils.asJsonString( r2 ) ) ).andExpect( status().isOk() );
 
         final Recipe r3 = new Recipe();
         r3.addIngredient( new Ingredient( "chocolate", 5 ) );
