@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import edu.ncsu.csc.CoffeeMaker.common.TestUtils;
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Inventory;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 
@@ -55,10 +56,10 @@ public class APICoffeeTest {
         /* Figure out if the recipe we want is present */
         if ( !recipe.contains( "Mocha" ) ) {
             final Recipe r = new Recipe();
-            r.setChocolate( 5 );
-            r.setCoffee( 3 );
-            r.setMilk( 4 );
-            r.setSugar( 8 );
+            r.addIngredient( new Ingredient( "chocolate", 5 ) );
+            r.addIngredient( new Ingredient( "coffee", 3 ) );
+            r.addIngredient( new Ingredient( "milk", 4 ) );
+            r.addIngredient( new Ingredient( "sugar", 8 ) );
             r.setPrice( 10 );
             r.setName( "Mocha" );
 
@@ -73,13 +74,24 @@ public class APICoffeeTest {
         assertTrue( recipe.contains(
                 "Mocha" ) ); /* Make sure that now our recipe is there */
 
-        final Inventory i = new Inventory( 50, 50, 50, 50 );
+        final Inventory i = new Inventory();
+        i.addIngredient( new Ingredient( "coffee", 50 ) );
+        i.addIngredient( new Ingredient( "milk", 50 ) );
+        i.addIngredient( new Ingredient( "sugar", 50 ) );
+        i.addIngredient( new Ingredient( "chocolate", 50 ) );
 
         mvc.perform( put( "/api/v1/inventory" ).contentType( MediaType.APPLICATION_JSON )
                 .content( TestUtils.asJsonString( i ) ) ).andExpect( status().isOk() );
 
         mvc.perform( post( String.format( "/api/v1/makecoffee/%s", "Mocha" ) ).contentType( MediaType.APPLICATION_JSON )
                 .content( TestUtils.asJsonString( 100 ) ) ).andExpect( status().isOk() ).andDo( print() );
+
+        mvc.perform( post( String.format( "/api/v1/makecoffee/%s", "Mocha" ) ).contentType( MediaType.APPLICATION_JSON )
+                .content( TestUtils.asJsonString( 5 ) ) ).andExpect( status().isConflict() );
+
+        mvc.perform( post( String.format( "/api/v1/makecoffee/%s", "BadRecipe" ) )
+                .contentType( MediaType.APPLICATION_JSON ).content( TestUtils.asJsonString( 100 ) ) )
+                .andExpect( status().isNotFound() );
 
     }
 

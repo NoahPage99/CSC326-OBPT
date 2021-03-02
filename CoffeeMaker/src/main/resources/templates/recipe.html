@@ -36,14 +36,15 @@
 		app.controller('addRecipeCtrl', function($scope, $http, $q) {
 			console.log("Hit!");
 
+			$scope.getIngredient = [];
+			$scope.count = 0;
+			
+			
 			$scope.reset = function() {
 				$scope.recipe = {
 					name : '',
 					price : '',
-					coffee : '',
-					milk : '',
-					sugar : '',
-					chocolate : ''
+					ingredient : []
 				};
 				if (undefined != $scope.addRecipeForm) {
 					$scope.addRecipeForm.$setPristine(); // reset Form
@@ -65,10 +66,32 @@
 							$scope.success = true;
 							$scope.failure = false;
 						}, function(rejection) {
+							$scope.failure = true;
 							console.error("Error while adding recipe");
 						});
+				$scope.getIngredients();
+			}
+			
+			$scope.getIngredients = function() {
+				$http.get("/api/v1/inventory").then(
+						function(response) {
+							$scope.getIngredient = response.data.ingredient;
+							console.log($scope.getIngredient);
+						}
+				)
+			}
+			
+			$scope.addToRecipe = function() {
+			     $scope.recipe.ingredient[$scope.count] = {ingredient: $scope.selectedName.ingredient, amount: $scope.selectedAmount};
+			     $scope.count = $scope.count + 1;
+			     $scope.getIngredient.splice($scope.getIngredient.indexOf($scope.selectedName), 1);
+			     console.log($scope.getIngredient);
+			     console.log($scope.count);
+			     console.log($scope.recipe.ingredient);
+			     
 			}
 
+			$scope.getIngredients();
 			$scope.reset();
 
 		});
@@ -122,81 +145,35 @@
 							</div>
 						</div>
 					</div>
+					
+					<div ng-repeat="detail in recipe.ingredient">
+					
+						{{detail.ingredient}}: {{detail.amount}}<br />
+						
+					
+					</div>
 
+					<br />
+					
 					<div class="row">
 						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Coffee</label>
+							<label class="col-md-2 control-lable" for="file">Ingredient</label>
 							<div class="col-md-7">
-								<input type="text" ng-model="recipe.coffee" name="coffee"
-									class="coffee form-control input-sm"
-									placeholder="Enter amount of coffee" required="0" />
+								<select ng-model="selectedName" ng-options="item as item.ingredient for item in getIngredient" name="ingr" ng-required="false">
+									<option value=""> Select Ingredient</option> </select>
+								<input type="text" ng-model="selectedAmount" name="amount"
+									class="amount form-control input-sm"
+									placeholder="Enter ingredient amount" required="0" />
+								<button type="button" ng-click="addToRecipe()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="addRecipeForm.$pristine" name="addIngBtn">Add to Recipe</button>
+								
 								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									<span ng-show="addRecipeForm.coffee.$error.required">This
-										is a required field</span> <span
-										ng-show="addRecipeForm.coffee.$error.min">Minimum
-										amount is 0</span> <span ng-show="addRecipeForm.coffee.$invalid">This
-										field is invalid </span>
+									
 								</div>
 							</div>
 						</div>
 					</div>
-
-
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Milk</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="recipe.milk" name="milk"
-									class="milk form-control input-sm"
-									placeholder="Enter amount of milk" required="0" />
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									<span ng-show="addRecipeForm.milk.$error.required">This
-										is a required field</span> <span
-										ng-show="addRecipeForm.milk.$error.min">Minimum amount
-										is 0</span> <span ng-show="addRecipeForm.milk.$invalid">This
-										field is invalid </span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Sugar</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="recipe.sugar" name="sugar"
-									class="sugar form-control input-sm"
-									placeholder="Enter amount of sugar" required="0" />
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									<span ng-show="addRecipeForm.sugar.$error.required">This
-										is a required field</span> <span
-										ng-show="addRecipeForm.sugar.$error.min">Minimum amount
-										is 0</span> <span ng-show="addRecipeForm.sugar.$invalid">This
-										field is invalid </span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="row">
-						<div class="form-group col-md-12">
-							<label class="col-md-2 control-lable" for="file">Chocolate</label>
-							<div class="col-md-7">
-								<input type="text" ng-model="recipe.chocolate" name="chocolate"
-									class="chocolate form-control input-sm"
-									placeholder="Enter amount of chocolate" required="0" />
-								<div class="has-error" ng-show="addRecipeForm.$dirty">
-									<span ng-show="addRecipeForm.chocolate.$error.required">This
-										is a required field.</span> <span
-										ng-show="addRecipeForm.chocolate.$error.min">Minimum
-										amount is 0.</span> <span ng-show="addRecipeForm.chocolate.$invalid">This
-										field is invalid. </span>
-								</div>
-							</div>
-						</div>
-					</div>
-
 
 					<div class="row">
 						<div class="form-actions floatRight">

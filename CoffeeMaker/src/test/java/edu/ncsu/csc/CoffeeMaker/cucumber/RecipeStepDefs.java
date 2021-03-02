@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.ncsu.csc.CoffeeMaker.cucumber.utils.SharedRecipeData;
+import edu.ncsu.csc.CoffeeMaker.models.Ingredient;
 import edu.ncsu.csc.CoffeeMaker.models.Recipe;
 import edu.ncsu.csc.CoffeeMaker.services.InventoryService;
 import edu.ncsu.csc.CoffeeMaker.services.RecipeService;
@@ -76,10 +77,10 @@ public class RecipeStepDefs {
                         testR.setName( "Recipe" + i );
                         final Integer pr = Integer.valueOf( i * 10 );
                         testR.setPrice( pr );
-                        testR.setCoffee( Integer.valueOf( i ) );
-                        testR.setMilk( 1 );
-                        testR.setSugar( 1 );
-                        testR.setChocolate( 1 );
+                        testR.addIngredient( new Ingredient( "coffee", ( Integer.valueOf( i ) ) ) );
+                        testR.addIngredient( new Ingredient( "milk", 1 ) );
+                        testR.addIngredient( new Ingredient( "sugar", 1 ) );
+                        testR.addIngredient( new Ingredient( "chocolate", 1 ) );
                     }
                     catch ( final Exception e ) {
                         Assert.fail( "Error in creating recipes" );
@@ -175,10 +176,10 @@ public class RecipeStepDefs {
         try {
             newR.setName( name );
             newR.setPrice( cost );
-            newR.setCoffee( coffeeAmt );
-            newR.setMilk( milkAmt );
-            newR.setSugar( sugarAmt );
-            newR.setChocolate( chocolateAmt );
+            newR.addIngredient( new Ingredient( "coffee", coffeeAmt ) );
+            newR.addIngredient( new Ingredient( "milk", milkAmt ) );
+            newR.addIngredient( new Ingredient( "sugar", sugarAmt ) );
+            newR.addIngredient( new Ingredient( "chocolate", chocolateAmt ) );
         }
         catch ( final Exception e ) {
             recipeData.recipeError = e.getMessage();
@@ -226,10 +227,10 @@ public class RecipeStepDefs {
                 throw new NumberFormatException( "Price must be a positive integer" );
             }
             try {
-                newR.setCoffee( Integer.parseInt( coffeeAmt ) );
-                newR.setMilk( Integer.parseInt( milkAmt ) );
-                newR.setSugar( Integer.parseInt( sugarAmt ) );
-                newR.setChocolate( Integer.parseInt( chocolateAmt ) );
+                newR.addIngredient( new Ingredient( "coffee", ( Integer.parseInt( coffeeAmt ) ) ) );
+                newR.addIngredient( new Ingredient( "milk", ( Integer.parseInt( milkAmt ) ) ) );
+                newR.addIngredient( new Ingredient( "sugar", ( Integer.parseInt( sugarAmt ) ) ) );
+                newR.addIngredient( new Ingredient( "chocolate", ( Integer.parseInt( chocolateAmt ) ) ) );
             }
             catch ( final Exception e ) {
                 throw new NumberFormatException( "Units of must be a positive integer" );
@@ -275,10 +276,10 @@ public class RecipeStepDefs {
 
         try {
             newR.setPrice( cost );
-            newR.setCoffee( coffeeAmt );
-            newR.setMilk( milkAmt );
-            newR.setSugar( sugarAmt );
-            newR.setChocolate( chocolateAmt );
+            newR.addIngredient( new Ingredient( "coffee", coffeeAmt ) );
+            newR.addIngredient( new Ingredient( "milk", milkAmt ) );
+            newR.addIngredient( new Ingredient( "sugar", sugarAmt ) );
+            newR.addIngredient( new Ingredient( "chocolate", chocolateAmt ) );
         }
         catch ( final Exception e ) {
             recipeData.recipeError = e.getMessage();
@@ -317,10 +318,10 @@ public class RecipeStepDefs {
                 throw new NumberFormatException( "Price must be a positive integer" );
             }
             try {
-                newR.setCoffee( Integer.parseInt( coffeeAmt ) );
-                newR.setMilk( Integer.parseInt( milkAmt ) );
-                newR.setSugar( Integer.parseInt( sugarAmt ) );
-                newR.setChocolate( Integer.parseInt( chocolateAmt ) );
+                newR.addIngredient( new Ingredient( "coffee", Integer.parseInt( coffeeAmt ) ) );
+                newR.addIngredient( new Ingredient( "milk", Integer.parseInt( milkAmt ) ) );
+                newR.addIngredient( new Ingredient( "sugar", Integer.parseInt( sugarAmt ) ) );
+                newR.addIngredient( new Ingredient( "chocolate", Integer.parseInt( chocolateAmt ) ) );
             }
             catch ( final Exception e ) {
                 throw new NumberFormatException( "Units of must be a positive integer" );
