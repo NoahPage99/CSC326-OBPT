@@ -52,14 +52,8 @@ public class DeleteRecipeWebStepDefs extends CucumberTest {
         driver.findElement( By.name( "name" ) ).sendKeys( recipeName );
         driver.findElement( By.name( "price" ) ).clear();
         driver.findElement( By.name( "price" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "coffee" ) ).clear();
-        driver.findElement( By.name( "coffee" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "milk" ) ).clear();
-        driver.findElement( By.name( "milk" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "sugar" ) ).clear();
-        driver.findElement( By.name( "sugar" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "chocolate" ) ).clear();
-        driver.findElement( By.name( "chocolate" ) ).sendKeys( "1" );
+        driver.findElement( By.name( "amount" ) ).clear();
+        driver.findElement( By.name( "amount" ) ).sendKeys( "1" );
 
         driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
 
@@ -79,14 +73,8 @@ public class DeleteRecipeWebStepDefs extends CucumberTest {
         driver.findElement( By.name( "name" ) ).sendKeys( name1 );
         driver.findElement( By.name( "price" ) ).clear();
         driver.findElement( By.name( "price" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "coffee" ) ).clear();
-        driver.findElement( By.name( "coffee" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "milk" ) ).clear();
-        driver.findElement( By.name( "milk" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "sugar" ) ).clear();
-        driver.findElement( By.name( "sugar" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "chocolate" ) ).clear();
-        driver.findElement( By.name( "chocolate" ) ).sendKeys( "1" );
+        driver.findElement( By.name( "amount" ) ).clear();
+        driver.findElement( By.name( "amount" ) ).sendKeys( "1" );
 
         driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
 
@@ -94,14 +82,8 @@ public class DeleteRecipeWebStepDefs extends CucumberTest {
         driver.findElement( By.name( "name" ) ).sendKeys( name2 );
         driver.findElement( By.name( "price" ) ).clear();
         driver.findElement( By.name( "price" ) ).sendKeys( "2" );
-        driver.findElement( By.name( "coffee" ) ).clear();
-        driver.findElement( By.name( "coffee" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "milk" ) ).clear();
-        driver.findElement( By.name( "milk" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "sugar" ) ).clear();
-        driver.findElement( By.name( "sugar" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "chocolate" ) ).clear();
-        driver.findElement( By.name( "chocolate" ) ).sendKeys( "1" );
+        driver.findElement( By.name( "amount" ) ).clear();
+        driver.findElement( By.name( "amount" ) ).sendKeys( "1" );
 
         driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
 

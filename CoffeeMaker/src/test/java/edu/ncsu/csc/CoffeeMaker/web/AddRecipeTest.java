@@ -55,14 +55,14 @@ public class AddRecipeTest extends SeleniumTest {
         driver.findElement( By.name( "name" ) ).sendKeys( "Coffee" );
         driver.findElement( By.name( "price" ) ).clear();
         driver.findElement( By.name( "price" ) ).sendKeys( "50" );
-        driver.findElement( By.name( "coffee" ) ).clear();
-        driver.findElement( By.name( "coffee" ) ).sendKeys( "3" );
-        driver.findElement( By.name( "milk" ) ).clear();
-        driver.findElement( By.name( "milk" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "sugar" ) ).clear();
-        driver.findElement( By.name( "sugar" ) ).sendKeys( "1" );
-        driver.findElement( By.name( "chocolate" ) ).clear();
-        driver.findElement( By.name( "chocolate" ) ).sendKeys( "1" );
+        // driver.findElement( By.name( "selectedName" ) ).clear();
+        // driver.findElement( By.name( "selectedName" ) ).sendKeys( "3" );
+        driver.findElement( By.name( "amount" ) ).clear();
+        driver.findElement( By.name( "amount" ) ).sendKeys( "1" );
+        // driver.findElement( By.name( "sugar" ) ).clear();
+        // driver.findElement( By.name( "sugar" ) ).sendKeys( "1" );
+        // driver.findElement( By.name( "chocolate" ) ).clear();
+        // driver.findElement( By.name( "chocolate" ) ).sendKeys( "1" );
 
         // Submit the recipe.
         driver.findElement( By.cssSelector( "input[type=\"submit\"]" ) ).click();
